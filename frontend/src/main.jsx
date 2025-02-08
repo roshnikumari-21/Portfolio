@@ -1,13 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter,Routes,Route } from 'react-router-dom'
-import './index.css'
-import App from './App.jsx'
-import Layout from './Layout.jsx'
-import Blog from './pages/Blog.jsx'
-import Project from './pages/Project.jsx'
-import Research from './pages/Research.jsx'
-import Home from './pages/Home.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import './index.css';
+import Layout from './Layout.jsx';
+import Project from './pages/Project.jsx';
+
+import Home from './pages/Home.jsx';
+import Password from './pages/Password.jsx';
+import Admin from './pages/Admin.jsx';
+import Award from './pages/Award.jsx';
+import Experience from './pages/Experience.jsx';
+
 
 
 
@@ -16,12 +19,19 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="project" element={<Project />} />
-          <Route path="research" element={<Research />} />
-          <Route path="blog" element={<Blog />} />
+        <Route path="/home" element={<Home />} />
+         
+          
+          <Route path="/award" element={<Award />} />
+         
+          <Route path="/project" element={<Project />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/experience" element={<Experience />} />
+          
+          <Route path="/protected" element={<Password />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>
   </StrictMode>,
-)
+);

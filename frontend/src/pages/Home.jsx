@@ -1,62 +1,143 @@
-import React from 'react'
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
-function Home() {
+const Home = () => {
+//   const [experience, setExperience] = useState("");
+//   useEffect(() => {
+//     const savedExperience = localStorage.getItem("experience");
+//     if (savedExperience) {
+//       setExperience(savedExperience);
+//     }
+//   }, []);
+
   return (
-    <div>
-         <div className="bg-gray-100 min-h-screen">      
-      <div className="bg-blue-900 text-white text-center py-20 px-6">
-        <h1 className="text-4xl md:text-5xl font-bold">Professor's Portfolio</h1>
-        <p className="text-lg md:text-xl mt-4">
-          Showcasing Research, Publications, and Achievements
-        </p>
-        
-      </div>
+    <div className="container mt-5">
+      <header className="row mb-5">
+        <div className="col-md-4 text-center">
+          <img
+            src="https://img.freepik.com/premium-photo/full-body-portrait-photo-happy-indian-school-male-teachis-standing-proudly-blurred-background-o_928503-3759.jpg?semt=ais_hybrid"
+            alt="Dr. D.K. Sharma"
+            className="img-fluid rounded-circle"
+          />
+        </div>
+        <div className="col-md-8">
+          <h1 className="text-primary">Dr. D.K. Sharma</h1>
+          <h3>Assistant Professor, Computer Science and Engineering</h3>
+          <p>
+            <strong>Email:</strong>{" "}
+            <a href="mailto:priya.kapoor@nitjsr.ac.in">
+              dk.sharma@nitjsr.ac.in
+            </a>
+          </p>
+          <p>
+            <strong>Phone:</strong>{" "}
+            <a href="tel:+911234567890">+91-123-456-7890</a>
+          </p>
+        </div>
+      </header>
 
-    
-      <section className="max-w-5xl mx-auto my-12 px-6">
-        <h2 className="text-3xl font-semibold text-center text-gray-800">
-          About Myself
-        </h2>
-        <p className="text-gray-700 text-lg mt-4 text-center">
-          An experienced academic professional specializing in research, teaching, 
-          and innovation. Passionate about guiding students and making significant 
-          contributions to the academic community.
+      {/* <h3>Your Experience</h3>
+      {experience ? <p>{experience}</p> : <p>No experience added yet.</p>} */}
+
+      <section className="mb-4">
+        <h2 className="text-primary">Biography</h2>
+        <p>
+          Dr. D.K. Sharma completed his Bachelor of Technology in Computer
+          Science from the Indian Institute of Technology (IIT) Kharagpur and
+          received his PhD in Artificial Intelligence from the Indian Institute
+          of Science (IISc), Bangalore. With over 10 years of experience in
+          academia, Dr. Sharma is passionate about teaching, research, and
+          developing innovative solutions in the field of computer science.
         </p>
       </section>
 
-      
-      <section className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 my-12 px-6">
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h3 className="text-xl font-semibold text-gray-800">📚 Research Papers</h3>
-          <p className="text-gray-600 mt-2">
-            Published multiple research papers in renowned journals and conferences.
-          </p>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h3 className="text-xl font-semibold text-gray-800">🎓 Teaching Experience</h3>
-          <p className="text-gray-600 mt-2">
-            More than 15 years of experience teaching undergraduate and postgraduate students.
-          </p>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h3 className="text-xl font-semibold text-gray-800">🏆 Achievements</h3>
-          <p className="text-gray-600 mt-2">
-            Recipient of multiple academic awards for excellence in research and education.
-          </p>
-        </div>
+      <section className="mb-4">
+        <h2 className="text-primary">Research Interests</h2>
+        <ul>
+          <li>Machine Learning and Data Mining</li>
+          <li>Natural Language Processing</li>
+          <li>Computer Vision</li>
+          <li>AI Ethics and Policy</li>
+        </ul>
       </section>
+
+      <section className="mb-4">
+        <h2 className="text-primary">Teaching Experience</h2>
+        <h3>Courses Taught:</h3>
+        <ul>
+          <li>Data Structures and Algorithms</li>
+          <li>Machine Learning</li>
+          <li>Software Engineering</li>
+          <li>Cloud Computing</li>
+        </ul>
+      </section>
+
+      <section className="mb-4">
+        <h2 className="text-primary">Publications</h2>
+        <ul>
+          <li>
+            Kapoor, P., & Sharma, A. (2022). "Optimizing Machine Learning
+            Algorithms for Predictive Analytics."{" "}
+            <i>International Journal of Computer Science and Technology.</i>
+          </li>
+          <li>
+            Kapoor, P., et al. (2021). "Ethics in AI: A Comprehensive Overview."
+            <i>Journal of AI Research and Policy.</i>
+          </li>
+        </ul>
+      </section>
+
+      <section className="mb-4">
+        <h2 className="text-primary">Projects and Grants</h2>
+        <ul>
+          <li>
+            Co-investigator on a project funded by the Ministry of Electronics
+            and Information Technology (MeitY) on "AI for Smart City Solutions"
+            (2023).
+          </li>
+        </ul>
+      </section>
+
+      <section className="mb-4">
+        <h2 className="text-primary">Conferences and Workshops</h2>
+        <ul>
+          <li>
+            Presented at the "International Conference on Machine Learning and
+            Applications" in 2023.
+          </li>
+          <li>
+            Conducted a workshop on "Introduction to Deep Learning" at NIT
+            Jamshedpur in 2022.
+          </li>
+        </ul>
+      </section>
+
+      <section className="mb-4">
+        <h2 className="text-primary">Awards and Honors</h2>
+        <ul>
+          <li>Awarded the "Best Teachis" award by NIT Jamshedpur in 2021.</li>
+          <li>
+            Recipient of the "Young Researchis Award" at the National Conference
+            on AI in 2020.
+          </li>
+        </ul>
+      </section>
+
+      <section className="mb-4">
+        <h2 className="text-primary">Professional Memberships</h2>
+        <ul>
+          <li>Member of the IEEE Computer Society.</li>
+          <li>Member of the Association for Computing Machinery (ACM).</li>
+        </ul>
+      </section>
+
+      <footer className="text-center mt-5">
+        <p>
+          Feel free to reach out for consultations, collaborations, or inquiries
+          regarding research and teaching.
+        </p>
+      </footer>
     </div>
+  );
+};
 
-
-      
-
-
-
-    </div>
-  )
-}
-
-export default Home
+export default Home;
