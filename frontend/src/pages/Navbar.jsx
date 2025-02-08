@@ -12,7 +12,7 @@ function NavBar() {
         <Navbar.Collapse id="navbarScroll">  
           <Nav className="me-auto">  
             <Nav.Link as={Link} to="/home">Home</Nav.Link>  
-            <Nav.Link as={Link} to="/projects">Projects & Research</Nav.Link>  
+            <Nav.Link as={Link} to="/project">Projects & Research</Nav.Link>  
             <Nav.Link as={Link} to="/award">Achievements</Nav.Link>  
             <Nav.Link as={Link} to="/blog">Blog</Nav.Link>  
             <Nav.Link as={Link} to="/experience">Experience</Nav.Link>  

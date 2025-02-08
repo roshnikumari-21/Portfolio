@@ -11,6 +11,7 @@ const Projects = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get('/api/projects/projects');
+        console.log(response.data); 
         setProjects(response.data);
         setLoading(false);
       } catch (err) {
@@ -39,7 +40,13 @@ const Projects = () => {
         ) : (
           projects.map((project) => (
             <div key={project._id} className="project-card">
-              <img src={project.image} alt={project.title} className="project-image" />
+                <img
+  src={project.image || 'default-image-url.jpg'} // Fallback image
+  alt={project.title}
+  className="project-image"
+/>
+
+              
               <h2>{project.title}</h2>
               <p>{project.description}</p>
               <p><strong>Outcomes:</strong> {project.outcomes}</p>
