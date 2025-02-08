@@ -1,0 +1,39 @@
+# Node.js / Express Backend  
+/backend/node_modules/  
+/backend/dist/  
+/backend/.env  
+/backend/.env.local  
+/backend/.env.development.local  
+/backend/.env.test.local  
+/backend/.env.production.local  
+/backend/coverage/  
+_backend/*.log  
+
+# Frontend (React)  
+frontend/node_modules/  
+frontend/build/  
+frontend/.env  
+frontend/.env.local  
+frontend/.env.development.local  
+frontend/.env.test.local  
+frontend/.env.production.local  
+frontend/.npm/  
+frontend/coverage/  
+frontend/.eslintcache  
+
+# Logs  
+*.log  
+
+# OS Files  
+.DS_Store  
+Thumbs.db  
+
+# IDE-specific files  
+.vscode/  
+.idea/  
+*.sublime-project  
+*.sublime-workspace  
+
+# Other ignored files  
+*.bak  
+*.tmp
