@@ -3,9 +3,6 @@ const router = express.Router();
 const Conference = require("../models/Conference");
 
 
-
-
-
 router.get("/", async (req, res) => {
   try {
     const { search, location, date } = req.query;

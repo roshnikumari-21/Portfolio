@@ -6,37 +6,42 @@ const Home = () => {
   return (
     <div className="container mt-5">
      
-      <header className="row mb-5 p-4  text-black rounded shadow">
-        <div className="col-md-4 text-center">
-          <img
-            src="https://img.freepik.com/premium-photo/full-body-portrait-photo-happy-indian-school-male-teachis-standing-proudly-blurred-background-o_928503-3759.jpg?semt=ais_hybrid"
-            alt="Dr. D.K. Sharma"
-            className="img-fluid rounded shadow-lg border border-primary p-2"
-            style={{ maxWidth: "350px" }}
-          />
-        </div>
-        <div className="col-md-8 mt-2">
-          <h1 className="text-black">
-            Dr. <span className="text-primary">D</span>.K.{" "}
-            <span className="text-primary">S</span>harma
-          </h1>
-          <h3 className="text-muted pb-2">
-            Assistant Professor, Computer Science and Engineering
-          </h3>
-         
+     
 
-          <p>
-            <i class="fas fa-envelope"></i>
-            <strong> Email:</strong>{" "}
-            <a href="mailto:dk.sharma@nitjsr.ac.in">dk.sharma@nitjsr.ac.in</a>
-          </p>
-          <p>
-            <i class="fas fa-phone"></i>
-            <strong> Phone:</strong>{" "}
-            <a href="tel:+911234567890">+91-9874567890</a>
-          </p>
-        </div>
-      </header>
+<header className="row mb-5 p-4 text-black rounded shadow d-flex flex-column flex-md-row align-items-center">
+ 
+  <div className="col-md-4 text-center mb-3 mb-md-0">
+    <img
+      src="https://img.freepik.com/premium-photo/full-body-portrait-photo-happy-indian-school-male-teachis-standing-proudly-blurred-background-o_928503-3759.jpg?semt=ais_hybrid"
+      alt="Dr. D.K. Sharma"
+      className="img-fluid rounded shadow-lg border border-primary p-2"
+      style={{ maxWidth: "100%", height: "auto" }} 
+    />
+  </div>
+
+  
+  <div className="col-md-8 text-center text-md-start">
+    <h1 className="text-black">
+      Dr. <span className="text-primary">D</span>.K.{" "}
+      <span className="text-primary">S</span>harma
+    </h1>
+    <h3 className="text-muted pb-2">
+      Assistant Professor, Computer Science and Engineering
+    </h3>
+
+    <p>
+      <i className="fas fa-envelope"></i>
+      <strong> Email:</strong>{" "}
+      <a href="mailto:dk.sharma@nitjsr.ac.in">dk.sharma@nitjsr.ac.in</a>
+    </p>
+    <p>
+      <i className="fas fa-phone"></i>
+      <strong> Phone:</strong>{" "}
+      <a href="tel:+911234567890">+91-9874567890</a>
+    </p>
+  </div>
+</header>
+
 
      
       <section className="mb-4 p-4 bg-light rounded shadow">

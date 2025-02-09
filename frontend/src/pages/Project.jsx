@@ -75,8 +75,10 @@ const Projects = () => {
                   style={{ height: '250px', objectFit: 'cover' }}
                 />
                 <div className="card-body">
-                  <h5 className="card-title"><i class="fas fa-project-diagram text-primary"></i> {project.title}</h5>
+                  <h5 className="card-title fw-bold"><i class="fas fa-project-diagram text-primary"></i> {project.title}</h5>
+                  <hr />
                   <p className="card-text">{project.description}</p>
+                  <hr />
                   <p className="card-text"><i class="fas fa-check-circle text-success"></i><strong> Outcomes:</strong> {project.outcomes}</p>
                 </div>
               </div>

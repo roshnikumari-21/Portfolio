@@ -15,5 +15,11 @@
    
     
   }
+
+  .hover-effect:hover {
+    color: rgb(1, 111, 255) !important; /* Change color on hover */
+    text-decoration: underline; /* Optional: Adds an underline */
+    transition: color 0.1s ease-in-out; /* Smooth effect */
+  }
   
   
