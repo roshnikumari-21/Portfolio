@@ -26,7 +26,7 @@ const Password = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center">Enter Password</h2>
+      <h2 className="text-center"><i className="fas fa-lock me-2"></i>Enter Password </h2>
       <form onSubmit={handleSubmit} className="text-center">
         <input
           type="password"
@@ -37,7 +37,7 @@ const Password = () => {
           required
         />
         <button type="submit" className="btn btn-primary mt-3">
-          Submit
+        <i className="fas fa-sign-in-alt me-2"></i> Submit
         </button>
       </form>
 

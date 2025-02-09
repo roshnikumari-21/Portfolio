@@ -88,11 +88,11 @@ const BlogsAdmin = () => {
       <ul className="list-group mt-4">
         {blogs.map(blog => (
           <li key={blog._id} className="list-group-item">
-            <h5>{blog.title}</h5>
+            <h5 className="fw-bold">{blog.title}</h5>
             <p>{blog.content}</p>
             {blog.image && <img src={`http://localhost:5000/${blog.image.replace(/\\/g, '/')}`}   alt="Blog" className="img-fluid" style={{ maxWidth: "200px", maxHeight: "150px" }} />}
-            <button className="btn btn-warning btn-sm" onClick={() => setEditBlog(blog)}>Edit</button>
-            <button className="btn btn-danger btn-sm ml-2" onClick={() => handleDeleteBlog(blog._id)}>Delete</button>
+            <button className="btn mx-2  btn-warning btn-sm" onClick={() => setEditBlog(blog)}>Edit</button>
+            <button className="btn mx-2 btn-danger btn-sm ml-2" onClick={() => handleDeleteBlog(blog._id)}>Delete</button>
           </li>
         ))}
       </ul>

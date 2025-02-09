@@ -46,9 +46,9 @@ const Projects = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="text-center mb-4">Projects</h1>
+      <h1 className="text-center mb-4"> Projects</h1>
 
-      {/* 🔍 Search Bar */}
+      
       <div className="input-group mb-4">
         <input
           type="text"
@@ -60,14 +60,14 @@ const Projects = () => {
         <button className="btn btn-primary" onClick={fetchProjects}>Search</button>
       </div>
 
-      {/* Projects List */}
+     
       <div className="row">
         {projects.length === 0 ? (
           <p className="text-center">No projects found.</p>
         ) : (
           projects.map((project) => (
             <div key={project._id} className="col-md-6 mb-4">
-              <div className="card shadow-sm h-100">
+              <div className="card shadow h-100">
                 <img
                   src={`http://localhost:5000/${project.image.replace(/\\/g, '/')}`}
                   alt={project.title}
@@ -76,9 +76,9 @@ const Projects = () => {
                   style={{ height: '250px', objectFit: 'cover' }}
                 />
                 <div className="card-body">
-                  <h5 className="card-title">{project.title}</h5>
+                  <h5 className="card-title"><i class="fas fa-project-diagram text-primary"></i> {project.title}</h5>
                   <p className="card-text">{project.description}</p>
-                  <p className="card-text"><strong>Outcomes:</strong> {project.outcomes}</p>
+                  <p className="card-text"><i class="fas fa-check-circle text-success"></i><strong> Outcomes:</strong> {project.outcomes}</p>
                 </div>
               </div>
             </div>

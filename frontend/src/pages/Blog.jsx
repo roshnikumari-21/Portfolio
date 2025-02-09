@@ -26,14 +26,14 @@ const Blog = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Blog Posts</h2>
+      <h1 className="text-center my-2  ">Blog Posts</h1>
       <div className="row">
         {Blog.length === 0 ? (
           <p>No Blog available.</p>
         ) : (
           Blog.map((blog) => (
             <div key={blog._id} className="col-md-4 mb-4">
-              <div className="card h-100">
+              <div className="card shadow-lg  h-100">
                 {blog.image && (
                   <img
                     src={`http://localhost:5000/${blog.image.replace(/\\/g, '/')}`}
@@ -43,8 +43,8 @@ const Blog = () => {
                   />
                 )}
                 <div className="card-body">
-                  <h5 className="card-title">{blog.title}</h5>
-                  <p className="card-text">{blog.content.substring(0, 100)}...</p>
+                  <h5 className="card-title">{ blog.title}</h5>
+                  <p className="card-text">{blog.content.substring(0, 1000)}...</p>
                 </div>
               </div>
             </div>

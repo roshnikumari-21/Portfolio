@@ -3,3 +3,12 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
 
+.award-icon {
+    color: rgb(207, 178, 15);  /* Gold Color */
+    font-size: 24px;  /* Adjust Size */
+    margin-right: 10px;
+  }
+
+  .bg-light-blue {
+    background-color: #1dd1f1; /* Light blue shade */
+  }

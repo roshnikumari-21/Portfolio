@@ -21,7 +21,7 @@ const Home = () => {
 
   return (
     <div className="container mt-5">
-      <h3 className="text-center text-primary mb-4">Experience</h3>
+      <h1 className="text-center text-primary mb-4">Experience</h1>
       {experiences.length > 0 ? (
         <div className="row">
           {experiences.map((exp, index) => (
