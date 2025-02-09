@@ -47,10 +47,10 @@ const Award = () => {
                     <i className="fas fa-award me-2 award-icon "></i> {award.title}
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">
-                    <i className="fas fa-history me-2"></i> {award.year}
+                    <i className="fas fa-regular fa-calendar me-2"></i> {award.year}
                   </h6>
                   <p className="card-text">{award.description}</p>
-                  <button className="btn btn-primary">View Details</button>
+                  {/* <button className="btn btn-primary">View Details</button> */}
                 </div>
               </div>
             </div>

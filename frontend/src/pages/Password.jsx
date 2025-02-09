@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 
@@ -10,12 +10,19 @@ const Password = () => {
 
   const correctPassword = "123"; 
 
+  useEffect(() => {
+    const isAuthenticated = sessionStorage.getItem("adminAuthenticated");
+    if (isAuthenticated === "true") {
+      navigate("/admin"); 
+    }
+  }, [navigate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === correctPassword) {
       login();
       //localStorage.setItem("adminAuthenticated", "true"); 
-     // sessionStorage.setItem("adminAuthenticated", "true");
+      sessionStorage.setItem("adminAuthenticated", "true");
 
 
       navigate("/admin");

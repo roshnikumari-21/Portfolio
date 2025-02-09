@@ -117,7 +117,7 @@ const AwardsAdmin = () => {
               Edit
             </button>
             <button
-              className="btn btn-danger btn-sm ml-2"
+              className="btn btn-danger btn-sm ml-2 mx-2"
               onClick={() => handleDeleteAward(award._id)}
             >
               Delete

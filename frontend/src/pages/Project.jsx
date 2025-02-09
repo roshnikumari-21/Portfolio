@@ -1,6 +1,4 @@
 
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -50,9 +48,7 @@ const Projects = () => {
 
       
       <div className="input-group mb-4">
-        <span>
-        <i class="fas fa-search"></i>
-        </span>
+        
         <input
           type="text"
           className="form-control"
