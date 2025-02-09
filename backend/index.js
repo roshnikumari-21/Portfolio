@@ -5,9 +5,11 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const bodyParser = require("body-parser");
 const blogRoutes = require("./routes/Blog");
+const conferenceRoutes = require("./routes/Conference");
 
 const projectRoutes = require("./routes/project");
 const awardRoutes = require("./routes/Award");
+const mediaRoutes= require('./routes/Media');
 const experienceRoutes = require("./routes/Experience");
 
 dotenv.config();
@@ -25,6 +27,8 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/awards", awardRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/experiences", experienceRoutes);
+app.use("/api/conferences", conferenceRoutes);
+app.use("/api/media",mediaRoutes);
 
 app.get("/ping", (req, res) => {
   res.send("PONG");
