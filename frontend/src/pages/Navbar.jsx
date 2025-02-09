@@ -1,13 +1,13 @@
 import React from 'react';  
 import { Link } from 'react-router-dom';  
 import { Navbar, Nav, Container, Button, Form } from 'react-bootstrap';  
-import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is imported  
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 function NavBar() {  
   return (  
     <Navbar bg="dark" variant="dark" expand="lg">  
       <Container fluid>  
-        <Navbar.Brand as={Link} to="/">Professor Portfolio</Navbar.Brand>  
+        <Navbar.Brand as={Link} to="/home">Professor Portfolio</Navbar.Brand>  
         <Navbar.Toggle aria-controls="navbarScroll" />  
         <Navbar.Collapse id="navbarScroll">  
           <Nav className="me-auto">  

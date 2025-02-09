@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const Home = () => {
-//   const [experience, setExperience] = useState("");
-//   useEffect(() => {
-//     const savedExperience = localStorage.getItem("experience");
-//     if (savedExperience) {
-//       setExperience(savedExperience);
-//     }
-//   }, []);
+
 
   return (
     <div className="container mt-5">
@@ -16,30 +10,29 @@ const Home = () => {
           <img
             src="https://img.freepik.com/premium-photo/full-body-portrait-photo-happy-indian-school-male-teachis-standing-proudly-blurred-background-o_928503-3759.jpg?semt=ais_hybrid"
             alt="Dr. D.K. Sharma"
-            className="img-fluid rounded-circle"
+            className="img-fluid rounded"
           />
         </div>
-        <div className="col-md-8">
+        <div className="col-md-8 mt-2">
           <h1 className="text-primary">Dr. D.K. Sharma</h1>
           <h3>Assistant Professor, Computer Science and Engineering</h3>
           <p>
             <strong>Email:</strong>{" "}
-            <a href="mailto:priya.kapoor@nitjsr.ac.in">
+            <a href="mailto:dk.sharma@nitjsr.ac.in">
               dk.sharma@nitjsr.ac.in
             </a>
           </p>
           <p>
             <strong>Phone:</strong>{" "}
-            <a href="tel:+911234567890">+91-123-456-7890</a>
+            <a href="tel:+911234567890">+91-9874567890</a>
           </p>
         </div>
       </header>
 
-      {/* <h3>Your Experience</h3>
-      {experience ? <p>{experience}</p> : <p>No experience added yet.</p>} */}
+    
 
       <section className="mb-4">
-        <h2 className="text-primary">Biography</h2>
+        <h2 className="text-primary">About</h2>
         <p>
           Dr. D.K. Sharma completed his Bachelor of Technology in Computer
           Science from the Indian Institute of Technology (IIT) Kharagpur and
@@ -61,8 +54,8 @@ const Home = () => {
       </section>
 
       <section className="mb-4">
-        <h2 className="text-primary">Teaching Experience</h2>
-        <h3>Courses Taught:</h3>
+        <h2 className="text-primary">Courses Taught:</h2>
+        
         <ul>
           <li>Data Structures and Algorithms</li>
           <li>Machine Learning</li>
@@ -75,12 +68,12 @@ const Home = () => {
         <h2 className="text-primary">Publications</h2>
         <ul>
           <li>
-            Kapoor, P., & Sharma, A. (2022). "Optimizing Machine Learning
+            Sharma, D., & Sharma, V. (2022). "Optimizing Machine Learning
             Algorithms for Predictive Analytics."{" "}
             <i>International Journal of Computer Science and Technology.</i>
           </li>
           <li>
-            Kapoor, P., et al. (2021). "Ethics in AI: A Comprehensive Overview."
+            Sharma, D., et al. (2021). "Ethics in AI: A Comprehensive Overview."
             <i>Journal of AI Research and Policy.</i>
           </li>
         </ul>
