@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "./AuthContext";
 
 const Password = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const {login} =useContext(AuthContext);
   const navigate = useNavigate();
 
   const correctPassword = "123"; 
@@ -11,9 +13,14 @@ const Password = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === correctPassword) {
+      login();
+      //localStorage.setItem("adminAuthenticated", "true"); 
+     // sessionStorage.setItem("adminAuthenticated", "true");
+
+
       navigate("/admin");
     } else {
-      setError(true);
+      setError("incorrect password!");
     }
   };
 
