@@ -1,5 +1,6 @@
 
 
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,29 +8,33 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/projects/projects'); // Use full backend URL
-        console.log("API Response:", response.data);
-
-        if (!Array.isArray(response.data)) {
-          throw new Error("API did not return an array");
-        }
-
-        setProjects(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setError('Error fetching projects');
-        setLoading(false);
-      }
-    };
-
     fetchProjects();
-  }, []);
+  }, [search]); // Fetch data when search changes
+
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/projects', {
+        params: { search }  // Sending search query to backend
+      });
+
+      console.log("API Response:", response.data);
+
+      if (!Array.isArray(response.data)) {
+        throw new Error("API did not return an array");
+      }
+
+      setProjects(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError('Error fetching projects');
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
@@ -42,9 +47,23 @@ const Projects = () => {
   return (
     <div className="container mt-4">
       <h1 className="text-center mb-4">Projects</h1>
+
+      {/* 🔍 Search Bar */}
+      <div className="input-group mb-4">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by title, description, or outcomes..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button className="btn btn-primary" onClick={fetchProjects}>Search</button>
+      </div>
+
+      {/* Projects List */}
       <div className="row">
         {projects.length === 0 ? (
-          <p className="text-center">No projects available.</p>
+          <p className="text-center">No projects found.</p>
         ) : (
           projects.map((project) => (
             <div key={project._id} className="col-md-6 mb-4">
@@ -71,3 +90,6 @@ const Projects = () => {
 };
 
 export default Projects;
+
+
+

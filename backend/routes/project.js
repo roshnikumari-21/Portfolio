@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-router.post('/add-project', upload.single('image'), async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
   const { title, description, outcomes } = req.body;
   const image = req.file.path; 
 
@@ -39,18 +39,30 @@ router.post('/add-project', upload.single('image'), async (req, res) => {
 });
 
 
-router.get('/projects', async (req, res) => {
+
+
+router.get("/", async (req, res) => {
   try {
-    const projects = await Project.find();
-    res.status(200).json(projects);
-  } catch (err) {
-    console.error('Error fetching projects:', err);
-    res.status(500).json({ error: 'Server error' });
+    const { search } = req.query;
+    let query = {};
+
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: "i" } },  // Case-insensitive search
+        { description: { $regex: search, $options: "i" } },
+        { outcomes: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    const projects = await Project.find(query);
+    res.json(projects);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
   }
 });
 
 
-router.put('/update-project/:id', upload.single('image'), async (req, res) => {
+router.put('/:id', upload.single('image'), async (req, res) => {
   const { id } = req.params;
   const { title, description, outcomes } = req.body;
   const image = req.file ? req.file.path : null; 
@@ -74,7 +86,7 @@ router.put('/update-project/:id', upload.single('image'), async (req, res) => {
 });
 
 
-router.delete('/delete-project/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {

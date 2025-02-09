@@ -20,15 +20,7 @@ function NavBar() {
             <Nav.Link as={Link} to="/media">Media</Nav.Link>  
 
           </Nav>  
-          <Form className="d-flex">  
-            <Form.Control  
-              type="search"  
-              placeholder="Search"  
-              className="me-2"  
-              aria-label="Search"  
-            />  
-            <Button variant="outline-light" type="submit">Search</Button>  
-          </Form>  
+         
           <Link to="/protected" className="btn btn-primary ms-3">Admin Panel</Link>  
         </Navbar.Collapse>  
       </Container>  

@@ -23,7 +23,7 @@ const ProjectsAdmin = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/projects/projects");
+      const response = await axios.get("http://localhost:5000/api/projects");
       if (!Array.isArray(response.data)) {
         throw new Error("API did not return an array");
       }
@@ -46,11 +46,11 @@ const ProjectsAdmin = () => {
 
     try {
       if (editProject) {
-        await axios.put(`http://localhost:5000/api/projects/update-project/${editProject._id}`, formData, {
+        await axios.put(`http://localhost:5000/api/projects/${editProject._id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        const response = await axios.post("http://localhost:5000/api/projects/add-project", formData, {
+        const response = await axios.post("http://localhost:5000/api/projects", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setProjects([...projects, response.data]);
@@ -66,7 +66,7 @@ const ProjectsAdmin = () => {
 
   const handleDeleteProject = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/projects/delete-project/${id}`);
+      await axios.delete(`http://localhost:5000/api/projects/${id}`);
       setProjects(projects.filter((project) => project._id !== id));
     } catch (error) {
       console.error("Error deleting project:", error);
