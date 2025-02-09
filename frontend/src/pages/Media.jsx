@@ -45,15 +45,15 @@ const Media = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center ">Media Gallery</h2>
+      <h1 className="text-center ">Media Gallery</h1>
 
       
-      <div className="row">
+      <div className="row mt-4">
         {media.map((item) => (
           <div key={item._id} className="col-md-4 mb-4">
-            <div className="card shadow-lg">
+            <div className="card shadow-lg  border-black border-2 ">
               {item.fileType === "image" ? (
-                <img src={`http://localhost:5000${item.filePath}`} alt={item.caption} className="card-img-top" />
+                <img src={`http://localhost:5000${item.filePath}`} alt={item.caption} className="card-img-top " />
               ) : (
                 <video controls className="card-img-top">
                   <source src={`http://localhost:5000${item.filePath}`} type="video/mp4" />

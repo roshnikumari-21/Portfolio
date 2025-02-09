@@ -32,15 +32,38 @@ router.post('/', upload.single('image'), async (req, res) => {
 });
 
 
+// router.get('/', async (req, res) => {
+//   try {
+//     const blogs = await Blog.find();
+//     res.status(200).json(blogs);
+//   } catch (err) {
+//     console.error('Error fetching blogs:', err);
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
+
 router.get('/', async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const { search } = req.query;
+    let query = {};
+
+    if (search) {
+      query = {
+        $or: [
+          { title: { $regex: search, $options: 'i' } }, 
+          { content: { $regex: search, $options: 'i' } }
+        ]
+      };
+    }
+
+    const blogs = await Blog.find(query);
     res.status(200).json(blogs);
   } catch (err) {
     console.error('Error fetching blogs:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 
 router.put('/:id', upload.single('image'), async (req, res) => {

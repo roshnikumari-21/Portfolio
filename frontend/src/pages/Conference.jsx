@@ -36,7 +36,10 @@ const Conferences = () => {
 
       
       <div className="row mb-4">
-        <div className="col-md-4">
+        <div className="col-md-4 input-group ">
+        <span class="input-group-text">
+    <i class="fas fa-search"></i>
+  </span>
           <input
             type="text"
             className="form-control"
@@ -45,7 +48,10 @@ const Conferences = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="col-md-4">
+        <div className="col-md-4 input-group">
+        <span class="input-group-text">
+    <i class="fas fa-filter"></i>
+  </span>
           <input
             type="text"
             className="form-control"
@@ -68,7 +74,7 @@ const Conferences = () => {
       {conferences.length === 0 ? (
         <p className="text-center">No conferences found.</p>
       ) : (
-        <ol className="list-group list-group-numbered">
+        <ol className="list-group shadow-lg list-group-numbered">
           {conferences.map((conf) => (
             <li key={conf._id} className="list-group-item p-3 shadow-sm">
               <h5 className="text-primary">{conf.name}</h5>
@@ -76,7 +82,9 @@ const Conferences = () => {
               <p><i className="fa-solid fa-calendar-days text-success"></i> <strong>Date:</strong> {new Date(conf.date).toLocaleDateString()}</p>
               <p><i className="fa-solid fa-users text-info"></i> <strong>Co-Authors:</strong> {conf.coAuthors.join(", ")}</p>
               <p>{conf.summary}</p>
+              
             </li>
+            
           ))}
         </ol>
       )}

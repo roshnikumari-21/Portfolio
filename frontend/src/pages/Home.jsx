@@ -49,8 +49,12 @@ const Home = () => {
             of Science (IISc), Bangalore
           </li>
           <li>
-            <strong>B.Tech in Computer Science</strong> - Indian Institute of
-            Technology (IIT), Kharagpur
+          <strong>M.Tech in Software Designing</strong>  - Indian Institute of
+          Technology (IIT), Kharagpur
+          </li>
+          <li>
+            <strong>B.Tech in Computer Science</strong> - National Institute of
+            Technology (NIT), Warangal
           </li>
         </ul>
       </section>
@@ -61,9 +65,7 @@ const Home = () => {
           <i className="fas fa-user me-2"></i> About
         </h2>
         <p>
-          Dr. D.K. Sharma has over 10 years of experience in academia,
-          specializing in AI and Data Science. His passion for research and
-          teaching has led to numerous contributions in Computer Science.
+        Dr. D.K. Sharma has over <span className="fw-bold">10 years</span> of experience in academia, specializing in AI and Data Science. He is currently serving as an Assistant Professor at <span className="fw-bold">NIT Jamshedpur</span>. His passion for research and teaching has led to numerous contributions in Computer Science.
         </p>
       </section>
 
@@ -142,18 +144,6 @@ const Home = () => {
       </section>
 
      
-      <section className="mb-4 p-4 bg-white rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-award me-2"></i> Awards and Honors
-        </h2>
-        <ul>
-          <li>Received "Best Teacher Award" by NIT Jamshedpur (2021).</li>
-          <li>
-            Recipient of "Young Researcher Award" at the National Conference on
-            AI (2020).
-          </li>
-        </ul>
-      </section>
 
      
       <section className="mb-4 p-4 bg-light rounded shadow">

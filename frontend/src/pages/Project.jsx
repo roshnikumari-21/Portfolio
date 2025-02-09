@@ -13,12 +13,12 @@ const Projects = () => {
 
   useEffect(() => {
     fetchProjects();
-  }, [search]); // Fetch data when search changes
+  }, [search]); 
 
   const fetchProjects = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/projects', {
-        params: { search }  // Sending search query to backend
+        params: { search }  
       });
 
       console.log("API Response:", response.data);
@@ -50,6 +50,9 @@ const Projects = () => {
 
       
       <div className="input-group mb-4">
+        <span>
+        <i class="fas fa-search"></i>
+        </span>
         <input
           type="text"
           className="form-control"

@@ -1,50 +1,85 @@
+
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Blog = () => {
-  const [Blog, setBlog] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBlog = async () => {
+    const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/blogs");
-        setBlog(response.data);
+        const response = await axios.get(
+          `http://localhost:5000/api/blogs?search=${searchTerm}`
+        );
+        setBlogs(response.data);
       } catch (err) {
-        setError("Failed to fetch Blog");
-        console.error("Error fetching Blog:", err);
+        setError("Failed to fetch Blogs");
+        console.error("Error fetching Blogs:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchBlog();
-  }, []);
 
-  if (loading) return <p>Loading Blog...</p>;
-  if (error) return <p className="text-danger">{error}</p>;
+    // Debounce effect to reduce API calls while typing
+    const delaySearch = setTimeout(() => {
+      fetchBlogs();
+    }, 500);
+
+    return () => clearTimeout(delaySearch);
+  }, [searchTerm]);
+
+  if (loading) return <p className="text-center mt-3">Loading Blogs...</p>;
+  if (error) return <p className="text-danger text-center">{error}</p>;
 
   return (
     <div className="container mt-4">
-      <h1 className="text-center my-2  ">Blog Posts</h1>
+      <h1 className="text-center my-3">Blog Posts</h1>
+
+      {/* Search Input */}
+
+      <div className="mb-3 input-group">
+        <span class="input-group-text">
+          <i class="fas fa-search"></i>
+        </span>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by title or content..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       <div className="row">
-        {Blog.length === 0 ? (
-          <p>No Blog available.</p>
+        {blogs.length === 0 ? (
+          <p className="text-center">No Blogs available.</p>
         ) : (
-          Blog.map((blog) => (
+          blogs.map((blog) => (
             <div key={blog._id} className="col-md-4 mb-4">
-              <div className="card shadow-lg  h-100">
+              <div className="card shadow-lg h-100">
                 {blog.image && (
                   <img
-                    src={`http://localhost:5000/${blog.image.replace(/\\/g, '/')}`}
+                    src={`http://localhost:5000/${blog.image.replace(
+                      /\\/g,
+                      "/"
+                    )}`}
                     alt={blog.title}
                     className="card-img-top"
                     style={{ maxHeight: "200px", objectFit: "cover" }}
                   />
                 )}
                 <div className="card-body">
-                  <h5 className="card-title">{ blog.title}</h5>
-                  <p className="card-text">{blog.content.substring(0, 1000)}...</p>
+                  <h5 className="card-title  ">{blog.title}</h5>
+                  <hr />
+                  <p className="card-text">
+                    {blog.content.length > 150
+                      ? blog.content.substring(0, 1000) + "..."
+                      : blog.content}
+                  </p>
                 </div>
               </div>
             </div>
