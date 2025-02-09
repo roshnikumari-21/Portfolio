@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Conference = require("../models/Conference");
 
-// Get all conferences
+
 router.get("/", async (req, res) => {
   try {
     const conferences = await Conference.find();
@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Add a new conference
+
 router.post("/", async (req, res) => {
   try {
     const { name, location, date, coAuthors, summary } = req.body;
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Update a conference
+
 router.put("/:id", async (req, res) => {
   try {
     const updatedConference = await Conference.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -34,7 +34,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete a conference
+
 router.delete("/:id", async (req, res) => {
   try {
     await Conference.findByIdAndDelete(req.params.id);

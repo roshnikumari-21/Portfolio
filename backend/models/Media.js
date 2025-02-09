@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const MediaSchema = new mongoose.Schema({
   caption: { type: String, required: true },
-  filePath: { type: String, required: true }, // Path to stored file
-  fileType: { type: String, required: true }, // image or video
+  filePath: { type: String, required: true }, 
+  fileType: { type: String, required: true }, 
   uploadedAt: { type: Date, default: Date.now },
 });
 

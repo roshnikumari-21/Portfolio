@@ -24,34 +24,7 @@ import Media from './pages/Media.jsx';
 
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
-  //   <BrowserRouter>
-  //     <Routes>
-  //       <Route path="/" element={<Layout />}>
-  //       <Route path="/home" element={<Home />} />
-         
-          
-  //         <Route path="/award" element={<Award />} />
-  //         <Route path="/blog" element={<Blog/>} />
-  //         <Route path="/conference" element={<Conferences/>} />
-         
-  //         <Route path="/project" element={<Project />} />
-  //         <Route path="/media" element={<Media />} />
-  //         <Route path="/admin" element={<Admin />} />
-  //         <Route path="/experience" element={<Experience />} />
-          
-  //         <Route path="/protected" element={<Password />} />
-  //         <Route path="/admin/projects" element={<ProjectsAdmin />} />
-  //         <Route path="/admin/awards" element={<AwardsAdmin />} />
-  //         <Route path="/admin/experiences" element={<ExperiencesAdmin />} />
-  //         <Route path="/admin/media" element={<MediaAdmin />} />
-  //         <Route path="/admin/conference" element={<ConferenceAdmin />} />
-  //         <Route path="/admin/blogs" element={<BlogsAdmin />} />
-          
-  //       </Route>
-  //     </Routes>
-  //   </BrowserRouter>
-  // </StrictMode>,
+ 
   <StrictMode>
   <BrowserRouter>
     <Routes>

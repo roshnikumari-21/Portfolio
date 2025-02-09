@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -25,7 +22,8 @@ const MediaAdmin = () => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!file || !caption) return alert("Please select a file and add a caption!");
+    if (!file || !caption)
+      return alert("Please select a file and add a caption!");
 
     const formData = new FormData();
     formData.append("file", file);
@@ -48,29 +46,43 @@ const MediaAdmin = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this media?")) return;
-  
+
     try {
       console.log(`Attempting to delete media with ID: ${id}`);
-      const response = await axios.delete(`http://localhost:5000/api/media/${id}` );
+      const response = await axios.delete(
+        `http://localhost:5000/api/media/${id}`
+      );
       console.log("Delete response:", response.data);
-      
+
       setMedia(media.filter((item) => item._id !== id)); // Update UI
     } catch (error) {
-      console.error("Error deleting media:", error.response?.data || error.message);
+      console.error(
+        "Error deleting media:",
+        error.response?.data || error.message
+      );
     }
   };
-  
-  
-  
 
   return (
     <div className="container mt-4">
       <h2 className="text-center">Media Gallery</h2>
 
-      {/* Upload Form */}
       <form onSubmit={handleUpload} className="mb-4">
-        <input type="text" placeholder="Caption" className="form-control mb-2" value={caption} onChange={(e) => setCaption(e.target.value)} required />
-        <input type="file" className="form-control mb-2" onChange={(e) => setFile(e.target.files[0])} accept="image/*,video/*" required />
+        <input
+          type="text"
+          placeholder="Caption"
+          className="form-control mb-2"
+          value={caption}
+          onChange={(e) => setCaption(e.target.value)}
+          required
+        />
+        <input
+          type="file"
+          className="form-control mb-2"
+          onChange={(e) => setFile(e.target.files[0])}
+          accept="image/*,video/*"
+          required
+        />
         <button type="submit" className="btn btn-primary" disabled={loading}>
           {loading ? "Uploading..." : "Upload"}
         </button>
@@ -82,20 +94,26 @@ const MediaAdmin = () => {
           <div key={item._id} className="col-md-4 mb-4">
             <div className="card">
               {item.filePath.endsWith(".mp4") ? (
-                // <video controls className="card-img-top">
-                //   <source src={`http://localhost:5000${item.filePath}`} type="video/mp4" />
-                // </video>
                 <video controls className="card-img-top">
-  <source src={`http://localhost:5000/uploads/${item.filePath}`} type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
-
+                  <source
+                    src={`http://localhost:5000/uploads/${item.filePath}`}
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
               ) : (
-                <img src={`http://localhost:5000${item.filePath}`} alt={item.caption} className="card-img-top" />
+                <img
+                  src={`http://localhost:5000${item.filePath}`}
+                  alt={item.caption}
+                  className="card-img-top"
+                />
               )}
               <div className="card-body">
                 <p className="card-text">{item.caption}</p>
-                <button className="btn btn-danger" onClick={() => handleDelete(item._id)}>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(item._id)}
+                >
                   Delete
                 </button>
               </div>
