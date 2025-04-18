@@ -34,6 +34,9 @@ const Admin = () => {
         <Link className={`nav-link ${location.pathname === "/admin/media" ? "active" : ""}`} to="/admin/media">
           <FaImages className="me-2" /> Media
         </Link>
+        <Link className={`nav-link ${location.pathname === "/admin/profile" ? "active" : ""}`} to="/admin/profile">
+          <FaImages className="me-2" /> Profile
+        </Link>
       </nav>
     </div>
   );

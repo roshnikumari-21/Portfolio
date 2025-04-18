@@ -1,27 +1,23 @@
-const express = require("express");
+import express from "express";
+import Conference from "../models/Conference.js"; // Ensure the path is correct for ES modules
 const router = express.Router();
-const Conference = require("../models/Conference");
-
 
 router.get("/", async (req, res) => {
   try {
     const { search, location, date } = req.query;
     let query = {};
 
-    
     if (search) {
       query.$or = [
-        { name: { $regex: search, $options: "i" } }, 
+        { name: { $regex: search, $options: "i" } },
         { summary: { $regex: search, $options: "i" } },
       ];
     }
 
-    
     if (location) {
       query.location = { $regex: location, $options: "i" };
     }
 
-    
     if (date) {
       query.date = date;
     }
@@ -32,7 +28,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 });
-
 
 router.post("/", async (req, res) => {
   try {
@@ -45,7 +40,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-
 router.put("/:id", async (req, res) => {
   try {
     const updatedConference = await Conference.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -54,7 +48,6 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 router.delete("/:id", async (req, res) => {
   try {
@@ -65,7 +58,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
-
-
-
+export default router; // Change module.exports to export default

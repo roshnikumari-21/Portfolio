@@ -7,7 +7,7 @@ function NavBar() {
   return (  
     <Navbar bg="dark" variant="dark" expand="lg">  
       <Container fluid>  
-        <Navbar.Brand as={Link} to="/home"><span className='fw-bold text-primary'>D</span>.K.S</Navbar.Brand>  
+        <Navbar.Brand as={Link} to="/home"><span className='fw-bold text-primary'>Prof</span>Port</Navbar.Brand>  
         <Navbar.Toggle aria-controls="navbarScroll" />  
         <Navbar.Collapse id="navbarScroll">  
           <Nav className="me-auto">  

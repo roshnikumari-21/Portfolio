@@ -1,172 +1,143 @@
 
 
-import React from "react";
+
+
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Home = () => {
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/user");
+        console.log("Fetched profile:", res.data); 
+        setProfile(res.data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
   return (
-    <div className="container mt-5">
-     
-     
+    <div className="max-w-6xl mx-auto px-4 py-10">
+      {/* Header Section */}
+      <header className="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row gap-6 items-center">
 
-<header className="row mb-5 p-4 text-black rounded shadow d-flex flex-column flex-md-row align-items-center">
- 
-  <div className="col-md-4 text-center mb-3 mb-md-0">
-    <img
-      src="https://img.freepik.com/premium-photo/full-body-portrait-photo-happy-indian-school-male-teachis-standing-proudly-blurred-background-o_928503-3759.jpg?semt=ais_hybrid"
-      alt="Dr. D.K. Sharma"
-      className="img-fluid rounded shadow-lg border border-primary p-2"
-      style={{ maxWidth: "100%", height: "auto" }} 
-    />
-  </div>
+        <img
+           src={profile.profilePicture || "https://wallpapers-clan.com/wp-content/uploads/2024/06/cute-cat-peeking-over-edge-desktop-wallpaper-preview.jpg"}
+          alt={profile.name}
+          className="w-1/4 h-1/4 rounded-xl border-4 border-blue-500 shadow"
+        />
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">
+            {profile.name?.split(" ")[0]}{" "}
+            <span className="text-blue-600">{profile.name?.split(" ")[1]}</span>
+          </h1>
+          <p className="text-lg text-gray-600 mb-4">{profile.position}</p>
+          <p className="text-sm">
+            <strong>Email:</strong>{" "}
+            <a href={`mailto:${profile.email}`} className="text-blue-600 underline">
+              {profile.email}
+            </a>
+          </p>
+          <p className="text-sm">
+            <strong>Phone:</strong>{" "}
+            <a href={`tel:${profile.phone}`} className="text-blue-600 underline">
+              {profile.phone}
+            </a>
+          </p>
+        </div>
+      </header>
 
-  
-  <div className="col-md-8 text-center text-md-start">
-    <h1 className="text-black">
-      Dr. <span className="text-primary">D</span>.K.{" "}
-      <span className="text-primary">S</span>harma
-    </h1>
-    <h3 className="text-muted pb-2">
-      Assistant Professor, Computer Science and Engineering
-    </h3>
-
-    <p>
-      <i className="fas fa-envelope"></i>
-      <strong> Email:</strong>{" "}
-      <a href="mailto:dk.sharma@nitjsr.ac.in">dk.sharma@nitjsr.ac.in</a>
-    </p>
-    <p>
-      <i className="fas fa-phone"></i>
-      <strong> Phone:</strong>{" "}
-      <a href="tel:+911234567890">+91-9874567890</a>
-    </p>
-  </div>
-</header>
-
-
-     
-      <section className="mb-4 p-4 bg-light rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-graduation-cap me-2"></i> Education
-        </h2>
-        <ul>
-          <li>
-            <strong>Ph.D. in Artificial Intelligence</strong> - Indian Institute
-            of Science (IISc), Bangalore
-          </li>
-          <li>
-          <strong>M.Tech in Software Designing</strong>  - Indian Institute of
-          Technology (IIT), Kharagpur
-          </li>
-          <li>
-            <strong>B.Tech in Computer Science</strong> - National Institute of
-            Technology (NIT), Warangal
-          </li>
+      {/* Education */}
+      <Section title="Education" icon="🎓" bg="bg-gray-50">
+        <ul className="list-disc pl-5 space-y-2">
+          <li>Ph.D. in AI – IISc Bangalore</li>
+          <li>M.Tech in Software Design – IIT Kharagpur</li>
+          <li>B.Tech in CSE – NIT Warangal</li>
         </ul>
-      </section>
+      </Section>
 
-     
-      <section className="mb-4 p-4 bg-white rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-user me-2"></i> About
-        </h2>
+      {/* About */}
+      <Section title="About" icon="🧑‍🏫" bg="bg-white">
         <p>
-        Dr. D.K. Sharma has over <span className="fw-bold">10 years</span> of experience in academia, specializing in AI and Data Science. He is currently serving as an Assistant Professor at <span className="fw-bold">NIT Jamshedpur</span>. His passion for research and teaching has led to numerous contributions in Computer Science.
+          Dr. D.K. Sharma has over <strong>10 years</strong> of experience in academia,
+          specializing in AI and Data Science. He currently serves at{" "}
+          <strong>NIT Jamshedpur</strong>.
         </p>
-      </section>
+      </Section>
 
-     
-      <section className="mb-4 p-4 bg-light rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-microscope me-2"></i> Research Interests
-        </h2>
-        <ul>
-          <li>Machine Learning and Data Mining</li>
+      {/* Research Interests */}
+      <Section title="Research Interests" icon="🔬" bg="bg-gray-50">
+        <ul className="list-disc pl-5 space-y-2">
+          <li>Machine Learning</li>
           <li>Natural Language Processing</li>
           <li>Computer Vision</li>
-          <li>AI Ethics and Policy</li>
+          <li>AI Ethics</li>
         </ul>
-      </section>
+      </Section>
 
-     
-      <section className="mb-4 p-4 bg-white rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-book me-2"></i> Courses Taught
-        </h2>
-        <ul>
-          <li>Data Structures and Algorithms</li>
+      {/* Courses */}
+      <Section title="Courses Taught" icon="📚" bg="bg-white">
+        <ul className="list-disc pl-5 space-y-2">
+          <li>DSA</li>
           <li>Machine Learning</li>
           <li>Software Engineering</li>
           <li>Cloud Computing</li>
         </ul>
-      </section>
+      </Section>
 
-     
-      <section className="mb-4 p-4 bg-light rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-file-alt me-2"></i> Publications
-        </h2>
-        <ul>
-          <li>
-            Sharma, D., & Sharma, V. (2022). "Optimizing Machine Learning
-            Algorithms for Predictive Analytics."{" "}
-            <i>International Journal of Computer Science and Technology.</i>
-          </li>
-          <li>
-            Sharma, D., et al. (2021). "Ethics in AI: A Comprehensive Overview."{" "}
-            <i>Journal of AI Research and Policy.</i>
-          </li>
+      {/* Publications */}
+      <Section title="Publications" icon="📝" bg="bg-gray-50">
+        <ul className="list-disc pl-5 space-y-2">
+          <li>"Optimizing ML Algorithms" – IJCS&T</li>
+          <li>"Ethics in AI" – Journal of AI Research</li>
         </ul>
-      </section>
+      </Section>
 
-     
-      <section className="mb-4 p-4 bg-white rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-lightbulb me-2"></i> Projects and Grants
-        </h2>
-        <ul>
-          <li>
-            Co-investigator on "AI for Smart City Solutions" (2023) funded by
-            MeitY.
-          </li>
+      {/* Projects */}
+      <Section title="Projects & Grants" icon="💡" bg="bg-white">
+        <ul className="list-disc pl-5 space-y-2">
+          <li>"AI for Smart Cities" – Funded by MeitY</li>
         </ul>
-      </section>
+      </Section>
 
-    
-      <section className="mb-4 p-4 bg-light rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-chalkboard me-2"></i> Conferences and Workshops
-        </h2>
-        <ul>
-          <li>
-            Presented at "International Conference on Machine Learning and
-            Applications" (2023).
-          </li>
-          <li>
-            Conducted a workshop on "Introduction to Deep Learning" at NIT
-            Jamshedpur (2022).
-          </li>
+      {/* Conferences */}
+      <Section title="Conferences & Workshops" icon="🎤" bg="bg-gray-50">
+        <ul className="list-disc pl-5 space-y-2">
+          <li>ICMLA 2023 – Presenter</li>
+          <li>Workshop on Deep Learning – NITJSR 2022</li>
         </ul>
-      </section>
+      </Section>
 
-     
-
-     
-      <section className="mb-4 p-4 bg-light rounded shadow">
-        <h2 className="text-primary">
-          <i className="fas fa-users me-2"></i> Professional Memberships
-        </h2>
-        <ul>
-          <li>Member of the IEEE Computer Society.</li>
-          <li>Member of the Association for Computing Machinery (ACM).</li>
+      {/* Memberships */}
+      <Section title="Professional Memberships" icon="👥" bg="bg-white">
+        <ul className="list-disc pl-5 space-y-2">
+          <li>IEEE Computer Society</li>
+          <li>ACM Member</li>
         </ul>
-      </section>
+      </Section>
 
-     
-      <footer className="text-center mt-5 p-4 bg-primary text-white rounded shadow">
-        <p>Feel free to reach out for collaborations or research inquiries.</p>
+      {/* Footer */}
+      <footer className="text-center mt-10 py-4 text-sm text-white bg-blue-600 rounded-lg">
+        Feel free to reach out for collaborations or research inquiries.
       </footer>
     </div>
   );
 };
+
+const Section = ({ title, children, icon, bg }) => (
+  <section className={`${bg} my-6 p-6 rounded-lg shadow`}>
+    <h2 className="text-xl font-semibold mb-3 text-blue-700">
+      {icon} {title}
+    </h2>
+    {children}
+  </section>
+);
 
 export default Home;

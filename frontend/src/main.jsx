@@ -20,6 +20,7 @@ import ExperiencesAdmin from "./components/ExperiencesAdmin";
 import BlogsAdmin from "./components/BlogsAdmin";
 import Conferences from "./pages/Conference.jsx";
 import MediaAdmin from "./components/MediaAdmin.jsx";
+import ProfileAdmin from "./components/ProfileAdmin.jsx";
 import Media from "./pages/Media.jsx";
 import { AuthProvider } from "./pages/AuthContext.jsx";
 
@@ -45,6 +46,8 @@ createRoot(document.getElementById("root")).render(
               <Route path="projects" element={<ProjectsAdmin />} />
               <Route path="awards" element={<AwardsAdmin />} />
               <Route path="experiences" element={<ExperiencesAdmin />} />
+              <Route path="profile" element={<ProfileAdmin/>} />
+              
               <Route path="media" element={<MediaAdmin />} />
               <Route path="conference" element={<ConferenceAdmin />} />
               <Route path="blogs" element={<BlogsAdmin />} />

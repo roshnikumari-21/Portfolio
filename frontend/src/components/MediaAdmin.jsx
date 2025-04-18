@@ -93,17 +93,14 @@ const MediaAdmin = () => {
         {media.map((item) => (
           <div key={item._id} className="col-md-4 mb-4">
             <div className="card">
-              {item.filePath.endsWith(".mp4") ? (
+              {item.fileType === "video" ? (
                 <video controls className="card-img-top">
-                  <source
-                    src={`http://localhost:5000/uploads/${item.filePath}`}
-                    type="video/mp4"
-                  />
+                  <source src={item.filePath} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               ) : (
                 <img
-                  src={`http://localhost:5000${item.filePath}`}
+                  src={item.filePath}
                   alt={item.caption}
                   className="card-img-top"
                 />

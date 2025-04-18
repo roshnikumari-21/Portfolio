@@ -1,13 +1,15 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const blogSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     content: { type: String, required: true },
-    image: { type: String, required: false }, 
+    image: { type: String, required: false },
+    publicId: { type: String, required: true },
   },
   { timestamps: true }
 );
 
 const Blog = mongoose.model('Blog', blogSchema);
-module.exports = Blog;
+
+export default Blog;

@@ -1,3 +1,6 @@
+
+
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -79,9 +82,27 @@ const BlogsAdmin = () => {
       <h2>Manage Blogs</h2>
 
       <form onSubmit={editBlog ? handleUpdateBlog : handleAddBlog} encType="multipart/form-data">
-        <input type="text" className="form-control" placeholder="Title" value={editBlog ? editBlog.title : newBlog.title} onChange={(e) => (editBlog ? setEditBlog({ ...editBlog, title: e.target.value }) : setNewBlog({ ...newBlog, title: e.target.value }))} required />
-        <textarea className="form-control" placeholder="Content" value={editBlog ? editBlog.content : newBlog.content} onChange={(e) => (editBlog ? setEditBlog({ ...editBlog, content: e.target.value }) : setNewBlog({ ...newBlog, content: e.target.value }))} required />
-        <input type="file" className="form-control" accept="image/*" onChange={handleImageChange} />
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Title"
+          value={editBlog ? editBlog.title : newBlog.title}
+          onChange={(e) => (editBlog ? setEditBlog({ ...editBlog, title: e.target.value }) : setNewBlog({ ...newBlog, title: e.target.value }))}
+          required
+        />
+        <textarea
+          className="form-control"
+          placeholder="Content"
+          value={editBlog ? editBlog.content : newBlog.content}
+          onChange={(e) => (editBlog ? setEditBlog({ ...editBlog, content: e.target.value }) : setNewBlog({ ...newBlog, content: e.target.value }))}
+          required
+        />
+        <input
+          type="file"
+          className="form-control"
+          accept="image/*"
+          onChange={handleImageChange}
+        />
         <button type="submit" className="btn btn-primary mt-3">{editBlog ? "Update" : "Add"}</button>
       </form>
 
@@ -90,8 +111,8 @@ const BlogsAdmin = () => {
           <li key={blog._id} className="list-group-item">
             <h5 className="fw-bold">{blog.title}</h5>
             <p>{blog.content}</p>
-            {blog.image && <img src={`http://localhost:5000/${blog.image.replace(/\\/g, '/')}`}   alt="Blog" className="img-fluid" style={{ maxWidth: "200px", maxHeight: "150px" }} />}
-            <button className="btn mx-2  btn-warning btn-sm" onClick={() => setEditBlog(blog)}>Edit</button>
+            {blog.image && <img src={blog.image} alt="Blog" className="img-fluid" style={{ maxWidth: "200px", maxHeight: "150px" }} />}
+            <button className="btn mx-2 btn-warning btn-sm" onClick={() => setEditBlog(blog)}>Edit</button>
             <button className="btn mx-2 btn-danger btn-sm ml-2" onClick={() => handleDeleteBlog(blog._id)}>Delete</button>
           </li>
         ))}
@@ -101,3 +122,4 @@ const BlogsAdmin = () => {
 };
 
 export default BlogsAdmin;
+

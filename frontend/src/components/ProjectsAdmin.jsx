@@ -13,9 +13,11 @@ const ProjectsAdmin = () => {
     outcomes: "",
     image: null,
   });
+  const [previewImage, setPreviewImage] = useState(null);
   const [editProject, setEditProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [fileInputKey, setFileInputKey] = useState(Date.now()); // helps reset file input
 
   useEffect(() => {
     fetchProjects();
@@ -24,14 +26,12 @@ const ProjectsAdmin = () => {
   const fetchProjects = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/projects");
-      if (!Array.isArray(response.data)) {
-        throw new Error("API did not return an array");
-      }
+      if (!Array.isArray(response.data)) throw new Error("API did not return an array");
       setProjects(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-      setError("Error fetching projects");
+    } catch (err) {
+      console.error("Error fetching projects:", err);
+      setError("Failed to fetch projects");
+    } finally {
       setLoading(false);
     }
   };
@@ -50,42 +50,57 @@ const ProjectsAdmin = () => {
           headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        const response = await axios.post("http://localhost:5000/api/projects", formData, {
+        await axios.post("http://localhost:5000/api/projects", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        setProjects([...projects, response.data]);
       }
 
+      // Reset
       setNewProject({ title: "", description: "", outcomes: "", image: null });
+      setPreviewImage(null);
       setEditProject(null);
+      setFileInputKey(Date.now());
       fetchProjects();
-    } catch (error) {
-      console.error("Error saving project:", error);
+    } catch (err) {
+      console.error("Error saving project:", err);
     }
   };
 
   const handleDeleteProject = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/api/projects/${id}`);
-      setProjects(projects.filter((project) => project._id !== id));
-    } catch (error) {
-      console.error("Error deleting project:", error);
+      setProjects(projects.filter((p) => p._id !== id));
+    } catch (err) {
+      console.error("Error deleting project:", err);
     }
   };
 
-  if (loading) {
-    return <div className="text-center mt-5">Loading...</div>;
-  }
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setNewProject({ ...newProject, image: file });
+    setPreviewImage(file ? URL.createObjectURL(file) : null);
+  };
 
-  if (error) {
-    return <div className="alert alert-danger text-center">{error}</div>;
-  }
+  const handleEdit = (project) => {
+    setEditProject(project);
+    setNewProject({
+      title: project.title,
+      description: project.description,
+      outcomes: project.outcomes,
+      image: null,
+    });
+    setPreviewImage(project.image);
+    setFileInputKey(Date.now());
+  };
 
   return (
     <div className="container mt-4">
       <h1 className="text-center mb-4">Manage Projects</h1>
 
-     
+      {loading && <div className="text-center">Loading...</div>}
+      {error && <div className="alert alert-danger text-center">{error}</div>}
+
+      {/* Form */}
       <div className="card p-4 mb-4 shadow">
         <form onSubmit={handleAddOrUpdateProject} encType="multipart/form-data">
           <div className="mb-3">
@@ -118,11 +133,20 @@ const ProjectsAdmin = () => {
           </div>
           <div className="mb-3">
             <input
+              key={fileInputKey}
               type="file"
               className="form-control"
-              onChange={(e) => setNewProject({ ...newProject, image: e.target.files[0] })}
               accept="image/*"
+              onChange={handleFileChange}
             />
+            {previewImage && (
+              <img
+                src={previewImage}
+                alt="Preview"
+                className="mt-3 img-thumbnail"
+                style={{ height: "150px", objectFit: "cover" }}
+              />
+            )}
           </div>
           <button type="submit" className="btn btn-primary w-100">
             {editProject ? "Update Project" : "Add Project"}
@@ -130,7 +154,7 @@ const ProjectsAdmin = () => {
         </form>
       </div>
 
-     
+      {/* Projects Display */}
       <div className="row">
         {projects.length === 0 ? (
           <p className="text-center">No projects available.</p>
@@ -138,15 +162,17 @@ const ProjectsAdmin = () => {
           projects.map((project) => (
             <div key={project._id} className="col-md-6 mb-4">
               <div className="card shadow-sm h-100">
-                <img
-                  src={`http://localhost:5000/${project.image.replace(/\\/g, "/")}`}
-                  alt={project.title}
-                  className="card-img-top img-fluid"
-                  onError={(e) => {
-                    e.target.src = "default-image-url.jpg"; 
-                  }}
-                  style={{ height: "250px", objectFit: "cover" }}
-                />
+                {project.image && (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="card-img-top img-fluid"
+                    style={{ height: "250px", objectFit: "cover" }}
+                    onError={(e) => {
+                      e.target.src = "https://via.placeholder.com/400x250?text=Image+Unavailable";
+                    }}
+                  />
+                )}
                 <div className="card-body">
                   <h5 className="card-title">{project.title}</h5>
                   <p className="card-text">{project.description}</p>
@@ -154,18 +180,7 @@ const ProjectsAdmin = () => {
                     <strong>Outcomes:</strong> {project.outcomes}
                   </p>
                   <div className="d-flex justify-content-between">
-                    <button
-                      className="btn btn-warning btn-sm"
-                      onClick={() => {
-                        setEditProject(project);
-                        setNewProject({
-                          title: project.title,
-                          description: project.description,
-                          outcomes: project.outcomes,
-                          image: null,
-                        });
-                      }}
-                    >
+                    <button className="btn btn-warning btn-sm" onClick={() => handleEdit(project)}>
                       Edit
                     </button>
                     <button

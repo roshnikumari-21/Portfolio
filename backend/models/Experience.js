@@ -1,5 +1,4 @@
-// models/Experience.js
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 const experienceSchema = new mongoose.Schema({
   title: {
@@ -28,6 +27,6 @@ const experienceSchema = new mongoose.Schema({
   },
 });
 
-const Experience = mongoose.model("Experience", experienceSchema);
+const Experience = mongoose.model('Experience', experienceSchema);
 
-module.exports = Experience;
+export default Experience;

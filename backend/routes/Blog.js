@@ -1,89 +1,97 @@
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const Blog = require('../models/Blog');
+import express from 'express';
+import mongoose from 'mongoose';
+import Blog from '../models/Blog.js';
+import { upload, cloudinaryUpload } from '../middleware/multer.js';
+import cloudinary from 'cloudinary';
 
 const router = express.Router();
 
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
+// Get All Blogs
+router.get('/', async (req, res) => {
+  try {
+    const blogs = await Blog.find().sort({ createdAt: -1 });
+    res.status(200).json(blogs);
+  } catch (err) {
+    console.error("Error fetching blogs:", err);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
-const upload = multer({ storage });
 
-
-router.post('/', upload.single('image'), async (req, res) => {
+// Add New Blog
+router.post('/', upload.single('image'), cloudinaryUpload, async (req, res) => {
   try {
     const { title, content } = req.body;
-    const image = req.file ? req.file.path : null;
 
-    const newBlog = new Blog({ title, content, image });
+    const newBlog = new Blog({
+      title,
+      content,
+      image: req.fileUrl || null,
+      publicId: req.filePublicId || null,
+    });
+
     await newBlog.save();
     res.status(201).json(newBlog);
   } catch (err) {
-    console.error('Error adding blog:', err);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Error creating blog:', err);
+    res.status(500).json({ error: 'Server error while creating blog' });
   }
 });
 
+// Update Blog
+router.put('/:id', upload.single('image'), cloudinaryUpload, async (req, res) => {
+  const { id } = req.params;
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid blog ID' });
+  }
 
-router.get('/', async (req, res) => {
   try {
-    const { search } = req.query;
-    let query = {};
+    const blog = await Blog.findById(id);
+    if (!blog) return res.status(404).json({ error: 'Blog not found' });
 
-    if (search) {
-      query = {
-        $or: [
-          { title: { $regex: search, $options: 'i' } }, 
-          { content: { $regex: search, $options: 'i' } }
-        ]
-      };
+    blog.title = req.body.title || blog.title;
+    blog.content = req.body.content || blog.content;
+
+    // If new image, remove old image from Cloudinary
+    if (req.fileUrl) {
+      if (blog.publicId) {
+        await cloudinary.v2.uploader.destroy(blog.publicId);
+      }
+      blog.image = req.fileUrl;
+      blog.publicId = req.filePublicId;
     }
 
-    const blogs = await Blog.find(query);
-    res.status(200).json(blogs);
-  } catch (err) {
-    console.error('Error fetching blogs:', err);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-
-
-router.put('/:id', upload.single('image'), async (req, res) => {
-  try {
-    const { title, content } = req.body;
-    const image = req.file ? req.file.path : null;
-
-    const updatedBlog = await Blog.findByIdAndUpdate(
-      req.params.id,
-      { title, content, image: image || undefined },
-      { new: true }
-    );
-
-    res.status(200).json(updatedBlog);
+    await blog.save();
+    res.status(200).json(blog);
   } catch (err) {
     console.error('Error updating blog:', err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Server error while updating blog' });
   }
 });
 
-
+// Delete Blog
 router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid blog ID' });
+  }
+
   try {
-    await Blog.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: 'Blog deleted' });
+    const blog = await Blog.findById(id);
+    if (!blog) return res.status(404).json({ error: 'Blog not found' });
+
+    // Remove Cloudinary image if exists
+    if (blog.publicId) {
+      await cloudinary.v2.uploader.destroy(blog.publicId);
+    }
+
+    await blog.deleteOne();
+    res.status(200).json({ message: 'Blog deleted successfully' });
   } catch (err) {
     console.error('Error deleting blog:', err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Server error while deleting blog' });
   }
 });
 
-module.exports = router;
+export default router;

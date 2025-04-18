@@ -1,9 +1,6 @@
-
-
-const express = require("express");
-const Experience = require("../models/Experience");
+import express from "express";
+import Experience from "../models/Experience.js"; // Ensure the path is correct for ES modules
 const router = express.Router();
-
 
 router.post("/", async (req, res) => {
   try {
@@ -26,7 +23,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-
 router.get("/", async (req, res) => {
   try {
     const experiences = await Experience.find();
@@ -36,7 +32,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Error fetching experiences" });
   }
 });
-
 
 router.put("/:id", async (req, res) => {
   try {
@@ -57,7 +52,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-
 router.delete("/:id", async (req, res) => {
   try {
     const deletedExperience = await Experience.findByIdAndDelete(req.params.id);
@@ -73,4 +67,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;  // Change module.exports to export default

@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 const awardSchema = new mongoose.Schema({
-    title: String,
-    year: String,
-    description: String,
-  });
+  title: String,
+  year: String,
+  description: String,
+});
 
-  const Award = mongoose.model("Award", awardSchema);
+const Award = mongoose.model('Award', awardSchema);
 
-module.exports = Award;
+export default Award;
