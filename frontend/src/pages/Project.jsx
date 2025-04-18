@@ -1,7 +1,5 @@
 
 
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,7 +25,7 @@ const Projects = () => {
     setError('');  // Reset previous errors
 
     try {
-      const response = await axios.get('http://localhost:5000/api/projects', {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/projects`, {
         params: { search }
       });
 

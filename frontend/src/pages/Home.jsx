@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user");
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user`);
         console.log("Fetched profile:", res.data); 
         setProfile(res.data);
       } catch (error) {

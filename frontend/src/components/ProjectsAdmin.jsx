@@ -1,6 +1,5 @@
 
 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -25,7 +24,7 @@ const ProjectsAdmin = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/projects");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/projects`);
       if (!Array.isArray(response.data)) throw new Error("API did not return an array");
       setProjects(response.data);
     } catch (err) {
@@ -46,11 +45,11 @@ const ProjectsAdmin = () => {
 
     try {
       if (editProject) {
-        await axios.put(`http://localhost:5000/api/projects/${editProject._id}`, formData, {
+        await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/projects/${editProject._id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        await axios.post("http://localhost:5000/api/projects", formData, {
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/projects`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
@@ -68,7 +67,7 @@ const ProjectsAdmin = () => {
 
   const handleDeleteProject = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/projects/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/projects/${id}`);
       setProjects(projects.filter((p) => p._id !== id));
     } catch (err) {
       console.error("Error deleting project:", err);

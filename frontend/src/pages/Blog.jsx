@@ -14,7 +14,7 @@ const Blog = () => {
     const fetchBlogs = async () => {
       try {
         const response = await axios.get(
-           `http://localhost:5000/api/blogs?search=${searchTerm || ""}`
+           `${import.meta.env.VITE_BACKEND_URL}/api/blogs?search=${searchTerm || ""}`
         );
         setBlogs(response.data);
       } catch (err) {

@@ -19,7 +19,7 @@ const Password = () => {
     // Fetch the admin password when the component loads
     const fetchAdminPassword = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user");
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user`);
         console.log("Fetched password:", res.data.adminPassword); // Check what's being returned
         setAdminPassword(res.data.adminPassword);
       } catch (err) {

@@ -18,7 +18,8 @@ const ConferenceAdmin = () => {
 
   const fetchConferences = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/conferences");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/conferences`);
+
       setConferences(response.data);
     } catch (error) {
       console.error("Error fetching conferences:", error);
@@ -29,9 +30,9 @@ const ConferenceAdmin = () => {
     e.preventDefault();
     try {
       if (editConference) {
-        await axios.put(`http://localhost:5000/api/conferences/${editConference._id}`, newConference);
+        await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/conferences/${editConference._id}`, newConference);
       } else {
-        await axios.post("http://localhost:5000/api/conferences", { 
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/conferences`, { 
           ...newConference, 
           coAuthors: newConference.coAuthors.split(",") 
         });
@@ -46,7 +47,7 @@ const ConferenceAdmin = () => {
 
   const handleDeleteConference = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/conferences/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/conferences/${id}`);
       fetchConferences();
     } catch (error) {
       console.error("Error deleting conference:", error);

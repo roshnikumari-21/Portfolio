@@ -13,7 +13,7 @@ const MediaAdmin = () => {
 
   const fetchMedia = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/media");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/media`);
       setMedia(response.data);
     } catch (error) {
       console.error("Error fetching media:", error);
@@ -31,7 +31,7 @@ const MediaAdmin = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:5000/api/media/upload", formData, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/media/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setFile(null);
@@ -50,7 +50,7 @@ const MediaAdmin = () => {
     try {
       console.log(`Attempting to delete media with ID: ${id}`);
       const response = await axios.delete(
-        `http://localhost:5000/api/media/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/media/${id}`
       );
       console.log("Delete response:", response.data);
 

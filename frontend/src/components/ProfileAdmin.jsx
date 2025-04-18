@@ -1,8 +1,5 @@
 
 
-
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -25,7 +22,7 @@ const AdminProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user");
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user`);
         const data = res.data;
 
         setFormData({
@@ -78,7 +75,7 @@ const AdminProfile = () => {
     console.log("Sending data:", data); 
 
     try {
-      await axios.put("http://localhost:5000/api/user", data, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -108,7 +105,7 @@ const AdminProfile = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/user", data, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Admin user created!");

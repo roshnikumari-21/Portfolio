@@ -19,7 +19,8 @@ const BlogsAdmin = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/blogs");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/blogs`);
+
       setBlogs(response.data);
     } catch (error) {
       console.error("Error fetching blogs:", error);
@@ -38,7 +39,7 @@ const BlogsAdmin = () => {
     if (image) formData.append("image", image);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/blogs", formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/blogs`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setBlogs([...blogs, response.data]);
@@ -57,7 +58,7 @@ const BlogsAdmin = () => {
     if (image) formData.append("image", image);
 
     try {
-      const response = await axios.put(`http://localhost:5000/api/blogs/${editBlog._id}`, formData, {
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/blogs/${editBlog._id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setBlogs(blogs.map(blog => blog._id === editBlog._id ? response.data : blog));
@@ -70,7 +71,7 @@ const BlogsAdmin = () => {
 
   const handleDeleteBlog = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/blogs/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/blogs/${id}`);
       setBlogs(blogs.filter(blog => blog._id !== id));
     } catch (error) {
       console.error("Error deleting blog:", error);

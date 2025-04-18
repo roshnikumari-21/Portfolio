@@ -8,7 +8,7 @@ const AwardsAdmin = () => {
 
   const fetchAwards = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/awards");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/awards`);
       setAwards(response.data);
     } catch (error) {
       console.error("Error fetching awards:", error);
@@ -22,7 +22,7 @@ const AwardsAdmin = () => {
   const handleAddAward = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/awards", newAward);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/awards`, newAward);
       setAwards([...awards, response.data]);
       setNewAward({ title: "", year: "", description: "" });
     } catch (error) {
@@ -34,7 +34,7 @@ const AwardsAdmin = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/awards/${editAward._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/awards/${editAward._id}`,
         editAward
       );
       setAwards(awards.map((award) => (award._id === editAward._id ? response.data : award)));
@@ -46,7 +46,7 @@ const AwardsAdmin = () => {
 
   const handleDeleteAward = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/awards/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/awards/${id}`);
       setAwards(awards.filter((award) => award._id !== id));
     } catch (error) {
       console.error("Error deleting award:", error);

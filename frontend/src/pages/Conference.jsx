@@ -19,7 +19,7 @@ const Conferences = () => {
         if (location) queryParams.append("location", location);
         if (date) queryParams.append("date", date);
 
-        const response = await axios.get(`http://localhost:5000/api/conferences?${queryParams.toString()}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/conferences?${queryParams.toString()}`);
         setConferences(response.data);
       } catch (error) {
         console.error("Error fetching conferences:", error);

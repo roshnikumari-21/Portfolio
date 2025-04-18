@@ -9,7 +9,7 @@ const Home = () => {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/experiences");
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/experiences`);
         setExperiences(response.data);
       } catch (error) {
         console.error("Error fetching experiences:", error);

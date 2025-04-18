@@ -22,7 +22,8 @@ const ExperiencesAdmin = () => {
 
   const fetchExperiences = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/experiences");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/experiences`);
+
       setExperiences(response.data);
     } catch (error) {
       console.error("Error fetching experiences:", error);
@@ -36,7 +37,7 @@ const ExperiencesAdmin = () => {
       if (editingExperience) {
         
         await axios.put(
-          `http://localhost:5000/api/experiences/${editingExperience._id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/experiences/${editingExperience._id}`,
           newExperience
         );
         setExperiences(
@@ -47,7 +48,7 @@ const ExperiencesAdmin = () => {
       } else {
         
         const response = await axios.post(
-          "http://localhost:5000/api/experiences",
+          `${import.meta.env.VITE_BACKEND_URL}/api/experiences`,
           newExperience
         );
         setExperiences([...experiences, response.data]);
@@ -61,7 +62,7 @@ const ExperiencesAdmin = () => {
   
   const handleDeleteExperience = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/experiences/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/experiences/${id}`);
       setExperiences(experiences.filter((exp) => exp._id !== id));
     } catch (error) {
       console.error("Error deleting experience:", error);

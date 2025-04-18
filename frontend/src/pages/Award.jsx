@@ -11,7 +11,7 @@ const Award = () => {
 
   const fetchAwards = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/awards");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/awards`);
       setAwards(response.data);
     } catch (error) {
       setError("Error fetching awards");
