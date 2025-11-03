@@ -16,7 +16,7 @@ const projects = [
     description: "Full-stack chess application with AI opponent using Stockfish engine, user authentication, and global leaderboard. Features real-time game play and user statistics tracking.",
     technologies: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS", "Stockfish"],
     github: "https://github.com/roshnikumari-21/KnightMare",
-    live: "#",
+    live: "https://knightmare.onrender.com/",
     featured: true
   },
   {
@@ -34,7 +34,7 @@ const projects = [
     description: "Comprehensive portfolio management system for professors with admin controls, dynamic content management, and intuitive interface for academic professionals.",
     technologies: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS"],
     github: "https://github.com/roshnikumari-21/ProfPort",
-    live: "#",
+    live: "https://profport.onrender.com/",
     featured: false
   },
   {
@@ -45,7 +45,25 @@ const projects = [
     github: "https://github.com/roshnikumari-21/Stackelberg-Competition",
     live: "#",
     featured: false
-  }
+  },
+  {
+  id: 5,
+  title: "StyleSync & Swyft - AI Fashion Platform",
+  description: "Myntra Hackerramp project featuring AI-powered fashion experience with virtual try-on (StyleSync) and personalized discovery feed (Swyft). Uses computer vision, generative AI, and recommendation systems to create immersive, intelligent fashion shopping for Gen Z.",
+  technologies: ["React", "Node.js", "TensorFlow.js", "Python", "OpenCV", "Generative AI", "Computer Vision", "MongoDB"],
+  github: "https://github.com/roshnikumari-21/MyntraHackerRamp",
+  live: "https://myntra-hackerramp-five.vercel.app/",
+  featured: true
+},
+{
+  id: 6,
+  title: "DSA Solutions & Interview Prep",
+  description: "Comprehensive collection of Data Structures and Algorithms solutions organized by topic. Serves as personal reference and interview preparation resource with clean, well-structured code and explanations for frequently asked coding problems across platforms.",
+  technologies: ["C++", "Python", "Java", "Algorithms", "Data Structures", "Problem Solving"],
+  github: "https://github.com/roshnikumari-21/DSA",
+  live: "#",
+  featured: false
+}
 ];
 
 export default function Projects() {

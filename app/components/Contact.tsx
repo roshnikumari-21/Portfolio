@@ -12,29 +12,29 @@ const contactMethods = [
   {
     icon: "📧",
     title: "Email",
-    value: "your.email@example.com",
-    link: "mailto:your.email@example.com",
+    value: "roshnikumari212004@gmail.com",
+    link: "mailto:roshnikumari212004@gmail.com",
     color: "from-red-400 to-red-600"
   },
   {
     icon: "📱",
     title: "Phone",
-    value: "+1 (555) 123-4567",
-    link: "tel:+15551234567",
+    value: "+91 8709758581",
+    link: "tel:+918709758581",
     color: "from-green-400 to-green-600"
   },
   {
     icon: "📍",
     title: "Location",
-    value: "Your City, Country",
+    value: "Jamshedpur, Jharkhand, India",
     link: "#",
     color: "from-blue-400 to-blue-600"
   },
   {
     icon: "💼",
     title: "LinkedIn",
-    value: "linkedin.com/in/yourprofile",
-    link: "https://linkedin.com/in/yourprofile",
+    value: "https://www.linkedin.com/in/roshni-kumari-2aa61928a/",
+    link: "https://www.linkedin.com/in/roshni-kumari-2aa61928a/",
     color: "from-blue-500 to-blue-700"
   }
 ];
@@ -185,10 +185,10 @@ export default function Contact() {
               <h4 className="font-semibold text-white mb-4">Follow Me</h4>
               <div className="flex space-x-4">
                 {[
-                  { name: 'GitHub', icon: '🐙', url: 'https://github.com/yourusername' },
-                  { name: 'Twitter', icon: '🐦', url: 'https://twitter.com/yourusername' },
-                  { name: 'LinkedIn', icon: '💼', url: 'https://linkedin.com/in/yourprofile' },
-                  { name: 'Instagram', icon: '📸', url: 'https://instagram.com/yourusername' }
+                  { name: 'GitHub', icon: '🐙', url: 'https://github.com/roshnikumari-21' },
+                  { name: 'Twitter', icon: '🐦', url: 'https://x.com/Roshnisingh_21' },
+                  { name: 'LinkedIn', icon: '💼', url: 'https://www.linkedin.com/in/roshni-kumari-2aa61928a/' },
+                  { name: 'Instagram', icon: '📸', url: 'https://www.instagram.com/roshnisingh_21/' }
                 ].map((social) => (
                   <a
                     key={social.name}
