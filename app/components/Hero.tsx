@@ -39,14 +39,25 @@ export default function Hero() {
     <section ref={heroRef} id="hero" className="min-h-screen flex items-center justify-center pt-20 px-6 bg-gray-900">
       <div className="text-center max-w-4xl">
         <h1 ref={titleRef} className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 opacity-0">
-          Hi, I'm <span className="text-blue-400 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">Your Name</span>
+          Hi, I'm <span className="text-blue-400 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">Roshni Kumari</span>
         </h1>
         <p ref={subtitleRef} className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 opacity-0">
-          Full Stack Developer & UI/UX Enthusiast
+          Full Stack Developer • Competitive Programmer • Flipkart SDE Intern
         </p>
+        <div className="flex flex-wrap justify-center gap-4 mb-8 opacity-0" ref={buttonsRef}>
+          <div className="bg-blue-500/20 text-blue-300 px-4 py-2 rounded-full text-sm border border-blue-500/30">
+            CGPA: 9.60/10.0
+          </div>
+          <div className="bg-green-500/20 text-green-300 px-4 py-2 rounded-full text-sm border border-green-500/30">
+            Top 20 Flipkart Runway
+          </div>
+          <div className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full text-sm border border-purple-500/30">
+            1500+ Problems Solved
+          </div>
+        </div>
         <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 justify-center opacity-0">
           <a href="#projects" className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/25">
-            View My Work
+            View My Projects
           </a>
           <a href="#contact" className="border border-white/20 hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg transition-all transform hover:scale-105 backdrop-blur-sm">
             Get In Touch

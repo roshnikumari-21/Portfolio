@@ -9,13 +9,13 @@ export default function Header() {
   const navItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
-    // Header entrance animation
+    
     gsap.fromTo(headerRef.current,
       { y: -100, opacity: 0 },
       { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
     );
 
-    // Nav items staggered animation
+    
     gsap.fromTo(navItemsRef.current,
       { y: -20, opacity: 0 },
       {
