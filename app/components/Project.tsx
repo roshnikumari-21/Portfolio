@@ -26,7 +26,7 @@ const projects = [
     technologies: ["Python", "Streamlit", "Pandas", "Scikit-learn", "ML"],
     github: "https://github.com/roshnikumari-21/AuraPredict",
     live: "#",
-    featured: true
+    featured: false
   },
   {
     id: 3,
@@ -35,14 +35,14 @@ const projects = [
     technologies: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS"],
     github: "https://github.com/roshnikumari-21/ProfPort",
     live: "https://profport.onrender.com/",
-    featured: false
+    featured: true
   },
   {
     id: 4,
     title: "Stackelberg Competition Research",
     description: "Research project implementing genetic algorithms for hierarchical decision-making in supply chain optimization using Stackelberg competition models.",
     technologies: ["Python", "DEAP", "SciPy", "NumPy", "Genetic Algorithms"],
-    github: "https://github.com/roshnikumari-21/Stackelberg-Competition",
+    github: "https://github.com/roshnikumari-21/Capstone_GA_1",
     live: "#",
     featured: false
   },

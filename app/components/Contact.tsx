@@ -4,36 +4,47 @@ import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { 
+  FaInstagram, 
+  FaLinkedin, 
+  FaLocationDot, 
+  FaPhone, 
+  FaGithub, 
+  FaTwitter 
+} from "react-icons/fa6";
+
+import { MdEmail } from "react-icons/md";
+
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 const contactMethods = [
   {
-    icon: "📧",
+    icon: <MdEmail className="text-white text-2xl" />,
     title: "Email",
     value: "roshnikumari212004@gmail.com",
     link: "mailto:roshnikumari212004@gmail.com",
     color: "from-red-400 to-red-600"
   },
   {
-    icon: "📱",
+    icon: <FaPhone className="text-white text-2xl" />,
     title: "Phone",
     value: "+91 8709758581",
     link: "tel:+918709758581",
     color: "from-green-400 to-green-600"
   },
   {
-    icon: "📍",
+    icon: <FaLocationDot className="text-white text-2xl" />,
     title: "Location",
     value: "Jamshedpur, Jharkhand, India",
     link: "#",
     color: "from-blue-400 to-blue-600"
   },
   {
-    icon: "💼",
+    icon: <FaLinkedin className="text-white text-2xl" />,
     title: "LinkedIn",
-    value: "https://www.linkedin.com/in/roshni-kumari-2aa61928a/",
+    value: "linkedin.com/in/roshni-kumari-2aa61928a/",
     link: "https://www.linkedin.com/in/roshni-kumari-2aa61928a/",
     color: "from-blue-500 to-blue-700"
   }
@@ -43,6 +54,7 @@ export default function Contact() {
   const sectionRef = useRef(null);
   const formRef = useRef(null);
   const contactCardRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -52,7 +64,7 @@ export default function Contact() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Section title animation
+      
       gsap.fromTo('.contact-title',
         { y: 50, opacity: 0 },
         {
@@ -66,45 +78,29 @@ export default function Contact() {
         }
       );
 
-      // Contact cards animation
       gsap.fromTo(contactCardRefs.current,
-        { 
-          y: 60, 
-          opacity: 0,
-          scale: 0.9
-        },
+        { y: 60, opacity: 0, scale: 0.9 },
         {
           y: 0,
           opacity: 1,
           scale: 1,
           duration: 0.8,
           stagger: 0.15,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%'
-          }
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
         }
       );
 
-      // Form animation
       gsap.fromTo(formRef.current,
-        { 
-          x: 50, 
-          opacity: 0 
-        },
+        { x: 50, opacity: 0 },
         {
           x: 0,
           opacity: 1,
           duration: 1,
           delay: 0.5,
-          scrollTrigger: {
-            trigger: formRef.current,
-            start: 'top 80%'
-          }
+          scrollTrigger: { trigger: formRef.current, start: 'top 80%' }
         }
       );
 
-      // Floating animation for contact cards
       contactCardRefs.current.forEach((card) => {
         if (card) {
           gsap.to(card, {
@@ -116,6 +112,7 @@ export default function Contact() {
           });
         }
       });
+
     });
 
     return () => ctx.revert();
@@ -137,9 +134,7 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
     console.log('Form submitted:', formData);
-    // You can integrate with Formspree, Netlify Forms, or your backend
     alert('Thank you for your message! I\'ll get back to you soon.');
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
@@ -147,31 +142,34 @@ export default function Contact() {
   return (
     <section ref={sectionRef} id="contact" className="py-20 bg-gray-900">
       <div className="container mx-auto px-6">
-        <h2 className="contact-title text-3xl md:text-4xl font-bold text-center mb-4">Get In Touch</h2>
+        <h2 className="contact-title text-3xl md:text-4xl font-bold text-center mb-4 text-white">
+          Get In Touch
+        </h2>
+
         <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
           Ready to bring your ideas to life? Let's start a conversation!
         </p>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Information */}
+          
+          {/* LEFT: CONTACT INFO */}
           <div>
             <h3 className="text-2xl font-bold mb-8 text-white">Let's Connect</h3>
             <p className="text-gray-300 mb-8 leading-relaxed">
-              I'm always interested in hearing about new opportunities and projects. 
-              Whether you have a question or just want to say hi, feel free to reach out!
+              I'm always interested in hearing about new opportunities and projects.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-              {contactMethods.map((method, index) => (
+              {contactMethods.map((method) => (
                 <a
                   key={method.title}
                   ref={addToContactCardRefs}
                   href={method.link}
                   target={method.link.startsWith('http') ? '_blank' : '_self'}
-                  rel={method.link.startsWith('http') ? 'noopener noreferrer' : ''}
-                  className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-blue-500/30 transition-all duration-500 transform hover:scale-105 group"
+                  rel="noopener noreferrer"
+                  className="bg-gray-800/50 rounded-xl p-4 border border-white/10 hover:border-blue-500/30 transition-all duration-500 transform hover:scale-105 group"
                 >
-                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${method.color} flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${method.color} flex items-center justify-center text-xl mb-3`}>
                     {method.icon}
                   </div>
                   <h4 className="font-semibold text-white mb-1">{method.title}</h4>
@@ -180,32 +178,48 @@ export default function Contact() {
               ))}
             </div>
 
-            {/* Social Links */}
+            {/* SOCIAL ICONS */}
             <div className="bg-gray-800/30 rounded-xl p-6 border border-white/10">
               <h4 className="font-semibold text-white mb-4">Follow Me</h4>
+
               <div className="flex space-x-4">
-                {[
-                  { name: 'GitHub', icon: '🐙', url: 'https://github.com/roshnikumari-21' },
-                  { name: 'Twitter', icon: '🐦', url: 'https://x.com/Roshnisingh_21' },
-                  { name: 'LinkedIn', icon: '💼', url: 'https://www.linkedin.com/in/roshni-kumari-2aa61928a/' },
-                  { name: 'Instagram', icon: '📸', url: 'https://www.instagram.com/roshnisingh_21/' }
-                ].map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-lg hover:bg-blue-500 hover:scale-110 transition-all duration-300 transform"
-                    title={social.name}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
+                <a
+                  href="https://github.com/roshnikumari-21"
+                  target="_blank"
+                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
+                >
+                  <FaGithub />
+                </a>
+
+                <a
+                  href="https://x.com/Roshnisingh_21"
+                  target="_blank"
+                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
+                >
+                  <FaTwitter />
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/in/roshni-kumari-2aa61928a/"
+                  target="_blank"
+                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
+                >
+                  <FaLinkedin />
+                </a>
+
+                <a
+                  href="https://www.instagram.com/roshnisingh_21/"
+                  target="_blank"
+                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
+                >
+                  <FaInstagram />
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Contact Form */}
+          {/* RIGHT: CONTACT FORM */}
+           {/* Contact Form */}
           <div ref={formRef}>
             <form onSubmit={handleSubmit} className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
@@ -221,7 +235,7 @@ export default function Contact() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
-                    placeholder="John Doe"
+                    placeholder="Roshni Kumari"
                   />
                 </div>
                 <div>
@@ -236,7 +250,7 @@ export default function Contact() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
-                    placeholder="john@example.com"
+                    placeholder="roshni@example.com"
                   />
                 </div>
               </div>
@@ -286,6 +300,7 @@ export default function Contact() {
               </p>
             </form>
           </div>
+
         </div>
       </div>
     </section>

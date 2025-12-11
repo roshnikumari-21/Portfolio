@@ -88,7 +88,7 @@ export default function Hero() {
               Hi, I'm <span className="text-blue-400 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">Roshni Kumari</span>
             </h1>
             <p ref={subtitleRef} className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 opacity-0">
-              Full Stack Developer • Competitive Programmer • Flipkart SDE Intern
+              Full Stack Developer • Competitive Programmer •  Former Flipkart SDE Intern
             </p>
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8 opacity-0" ref={buttonsRef}>
               <div className="bg-blue-500/20 text-blue-300 px-4 py-2 rounded-full text-sm border border-blue-500/30">
