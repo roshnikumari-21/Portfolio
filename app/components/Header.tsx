@@ -9,13 +9,13 @@ export default function Header() {
   const navItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
-    
+
     gsap.fromTo(headerRef.current,
       { y: -100, opacity: 0 },
       { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
     );
 
-    
+
     gsap.fromTo(navItemsRef.current,
       { y: -20, opacity: 0 },
       {
@@ -42,10 +42,10 @@ export default function Header() {
           <a href="#" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors duration-300">
             Roshni
           </a>
-          
+
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
-            {['About', 'Projects', 'Skills', 'Contact'].map((item, index) => (
+            {['About', 'Resume', 'Certificates', 'Projects', 'Skills', 'Contact'].map((item, index) => (
               <a
                 key={item}
                 ref={addToRefs}
@@ -59,7 +59,7 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             className="md:hidden text-white text-xl hover:text-blue-400 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
@@ -70,7 +70,7 @@ export default function Header() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 space-y-4 bg-gray-800/95 backdrop-blur-md p-6 rounded-lg border border-white/10">
-            {['About', 'Projects', 'Skills', 'Contact'].map((item) => (
+            {['About', 'Resume', 'Certificates', 'Projects', 'Skills', 'Contact'].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
