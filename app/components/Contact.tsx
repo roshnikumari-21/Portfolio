@@ -4,13 +4,14 @@ import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { 
-  FaInstagram, 
-  FaLinkedin, 
-  FaLocationDot, 
-  FaPhone, 
-  FaGithub, 
-  FaTwitter 
+import {
+  FaInstagram,
+  FaLinkedin,
+  FaLocationDot,
+  FaPhone,
+  FaGithub,
+  FaTwitter,
+  FaFacebook
 } from "react-icons/fa6";
 
 import { MdEmail } from "react-icons/md";
@@ -64,7 +65,7 @@ export default function Contact() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      
+
       gsap.fromTo('.contact-title',
         { y: 50, opacity: 0 },
         {
@@ -151,7 +152,7 @@ export default function Contact() {
         </p>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          
+
           {/* LEFT: CONTACT INFO */}
           <div>
             <h3 className="text-2xl font-bold mb-8 text-white">Let's Connect</h3>
@@ -214,12 +215,20 @@ export default function Contact() {
                 >
                   <FaInstagram />
                 </a>
+
+                <a
+                  href="https://www.facebook.com/profile.php?id=61581885718089"
+                  target="_blank"
+                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
+                >
+                  <FaFacebook />
+                </a>
               </div>
             </div>
           </div>
 
           {/* RIGHT: CONTACT FORM */}
-           {/* Contact Form */}
+          {/* Contact Form */}
           <div ref={formRef}>
             <form onSubmit={handleSubmit} className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
