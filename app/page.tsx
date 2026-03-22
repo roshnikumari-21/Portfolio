@@ -6,20 +6,26 @@ import Certificates from './components/Certificates'
 import Experience from './components/Experience'
 import Projects from './components/Project'
 import Skills from './components/Skills'
+import Music from './components/Music'
 import Contact from './components/Contact'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-900 text-white overflow-hidden">
-      <Header />
-      <Hero />
-      <About />
-      <Resume />
-      <Certificates />
-      <Experience />
-      <Projects />
-      <Skills />
-      <Contact />
-    </main>
+    <>
+      <div className="crt-overlay"></div>
+      <div className="grid-bg"></div>
+      <main className="min-h-screen text-white overflow-hidden relative z-10">
+        <Header />
+        <Hero />
+        <About />
+        <Resume />
+        <Certificates />
+        <Experience />
+        <Projects />
+        <Skills />
+        <Music />
+        <Contact />
+      </main>
+    </>
   )
 }

@@ -1,9 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import { useState } from 'react';
 import {
   FaInstagram,
   FaLinkedin,
@@ -13,245 +10,210 @@ import {
   FaTwitter,
   FaFacebook
 } from "react-icons/fa6";
-
 import { MdEmail } from "react-icons/md";
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const contactMethods = [
-  {
-    icon: <MdEmail className="text-white text-2xl" />,
-    title: "Email",
-    value: "roshnikumari212004@gmail.com",
-    link: "mailto:roshnikumari212004@gmail.com",
-    color: "from-red-400 to-red-600"
-  },
-  {
-    icon: <FaPhone className="text-white text-2xl" />,
-    title: "Phone",
-    value: "+91 8709758581",
-    link: "tel:+918709758581",
-    color: "from-green-400 to-green-600"
-  },
-  {
-    icon: <FaLocationDot className="text-white text-2xl" />,
-    title: "Location",
-    value: "Jamshedpur, Jharkhand, India",
-    link: "#",
-    color: "from-blue-400 to-blue-600"
-  },
-  {
-    icon: <FaLinkedin className="text-white text-2xl" />,
-    title: "LinkedIn",
-    value: "linkedin.com/in/roshni-kumari-2aa61928a/",
-    link: "https://www.linkedin.com/in/roshni-kumari-2aa61928a/",
-    color: "from-blue-500 to-blue-700"
-  }
-];
+type ModalState = {
+  isOpen: boolean;
+  type: 'success' | 'error';
+  message: string;
+};
 
 export default function Contact() {
-  const sectionRef = useRef(null);
-  const formRef = useRef(null);
-  const contactCardRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-
-      gsap.fromTo('.contact-title',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%'
-          }
-        }
-      );
-
-      gsap.fromTo(contactCardRefs.current,
-        { y: 60, opacity: 0, scale: 0.9 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
-        }
-      );
-
-      gsap.fromTo(formRef.current,
-        { x: 50, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          delay: 0.5,
-          scrollTrigger: { trigger: formRef.current, start: 'top 80%' }
-        }
-      );
-
-      contactCardRefs.current.forEach((card) => {
-        if (card) {
-          gsap.to(card, {
-            y: -10,
-            duration: 2,
-            repeat: -1,
-            yoyo: true,
-            ease: "power1.inOut"
-          });
-        }
-      });
-
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  const addToContactCardRefs = (el: HTMLAnchorElement | null) => {
-    if (el && !contactCardRefs.current.includes(el)) {
-      contactCardRefs.current.push(el);
-    }
-  };
+  
+  const [modal, setModal] = useState<ModalState>({
+    isOpen: false,
+    type: 'success',
+    message: ''
+  });
+  const [isTransmitting, setIsTransmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsTransmitting(true);
+    
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        alert('Thank you for your message! I\'ll get back to you soon.');
+        setModal({
+          isOpen: true,
+          type: 'success',
+          message: 'TRANSMISSION SUCCESSFUL.\nDATA PACKET DELIVERED.'
+        });
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        alert('Something went wrong. Please try again later.');
+        setModal({
+          isOpen: true,
+          type: 'error',
+          message: 'TRANSMISSION FAILED.\nINTERFERENCE DETECTED.'
+        });
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred. Please try again.');
+      setModal({
+        isOpen: true,
+        type: 'error',
+        message: 'UPLINK ERROR.\nCONNECTION SEVERED.'
+      });
+    } finally {
+      setIsTransmitting(false);
     }
   };
 
   return (
-    <section ref={sectionRef} id="contact" className="py-20 bg-gray-900">
-      <div className="container mx-auto px-6">
-        <h2 className="contact-title text-3xl md:text-4xl font-bold text-center mb-4 text-white">
-          Get In Touch
-        </h2>
+    <section id="contact" className="py-20 relative z-10">
+      
+      {/* Custom Modal */}
+      {modal.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <div className="cyber-card p-1 bg-black max-w-md w-full mx-4 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+            <div className={`border-b ${modal.type === 'success' ? 'border-[var(--color-cyber-cyan)] bg-[var(--color-cyber-cyan)]/10 text-[var(--color-cyber-cyan)]' : 'border-[var(--color-cyber-pink)] bg-[var(--color-cyber-pink)]/10 text-[var(--color-cyber-pink)]'} px-4 py-3 flex items-center justify-between`}>
+              <span className="font-mono text-sm tracking-widest uppercase">
+                {modal.type === 'success' ? 'SYS.MESSAGE // OK' : 'SYS.ALERT // ERR'}
+              </span>
+              <span className={`w-3 h-3 ${modal.type === 'success' ? 'bg-[var(--color-cyber-cyan)]' : 'bg-[var(--color-cyber-pink)]'} animate-pulse inline-block`}></span>
+            </div>
+            
+            <div className="p-8 text-center border-x border-b border-[var(--color-cyber-charcoal)]">
+              <h3 className={`text-xl font-bold uppercase tracking-widest mb-6 ${modal.type === 'success' ? 'text-white' : 'text-[var(--color-cyber-pink)] glitch-text'}`} data-text={modal.message.split('\n')[0]}>
+                {modal.message.split('\n')[0]}
+              </h3>
+              <p className="text-gray-400 font-mono text-sm mb-8">
+                {modal.message.split('\n')[1]}
+              </p>
+              
+              <button
+                onClick={() => setModal({ ...modal, isOpen: false })}
+                className={`cyber-button w-full ${modal.type === 'success' ? '' : '!border-[var(--color-cyber-pink)] !text-[var(--color-cyber-pink)] before:!bg-[var(--color-cyber-pink)]'}`}
+              >
+                [ ACKNOWLEDGE ]
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
-          Ready to bring your ideas to life? Let's start a conversation!
-        </p>
+      <div className="container mx-auto px-6">
+        
+        <div className="mb-14 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white glitch-text mb-4" data-text="SECURE UPLINK">
+            SECURE UPLINK
+          </h2>
+          <p className="text-[var(--color-cyber-cyan)] font-mono text-sm max-w-2xl mx-auto uppercase">
+            &gt; establishing encrypted peer-to-peer connection...
+          </p>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-
-          {/* LEFT: CONTACT INFO */}
-          <div>
-            <h3 className="text-2xl font-bold mb-8 text-white">Let's Connect</h3>
-            <p className="text-gray-300 mb-8 leading-relaxed">
-              I'm always interested in hearing about new opportunities and projects.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-              {contactMethods.map((method) => (
-                <a
-                  key={method.title}
-                  ref={addToContactCardRefs}
-                  href={method.link}
-                  target={method.link.startsWith('http') ? '_blank' : '_self'}
-                  rel="noopener noreferrer"
-                  className="bg-gray-800/50 rounded-xl p-4 border border-white/10 hover:border-blue-500/30 transition-all duration-500 transform hover:scale-105 group"
-                >
-                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${method.color} flex items-center justify-center text-xl mb-3`}>
-                    {method.icon}
+          {/* LEFT: NETWORK INFO */}
+          <div className="space-y-8">
+            <div className="cyber-card p-6 bg-black/60">
+              <h3 className="text-[var(--color-cyber-pink)] font-mono text-sm mb-4 border-b border-[var(--color-cyber-pink)]/30 pb-2">
+                // NODE_DIRECTORIES
+              </h3>
+              
+              <div className="space-y-6 form-mono text-sm text-gray-300">
+                <a href="mailto:roshnikumari212004@gmail.com" className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 border border-[var(--color-cyber-cyan)] flex items-center justify-center text-[var(--color-cyber-cyan)] group-hover:bg-[var(--color-cyber-cyan)] group-hover:text-black transition-colors">
+                    <MdEmail size={20} />
                   </div>
-                  <h4 className="font-semibold text-white mb-1">{method.title}</h4>
-                  <p className="text-gray-400 text-sm">{method.value}</p>
+                  <div>
+                    <div className="text-[10px] text-[var(--color-cyber-yellow)] cursor-default">SYS.GMAIL</div>
+                    <div className="group-hover:text-[var(--color-cyber-cyan)] transition-colors">roshnikumari212004@gmail.com</div>
+                  </div>
                 </a>
-              ))}
+
+                <a href="tel:+918709758581" className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 border border-[var(--color-cyber-cyan)] flex items-center justify-center text-[var(--color-cyber-cyan)] group-hover:bg-[var(--color-cyber-cyan)] group-hover:text-black transition-colors">
+                    <FaPhone size={18} />
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-[var(--color-cyber-yellow)] cursor-default">COM.VOICE</div>
+                    <div className="group-hover:text-[var(--color-cyber-cyan)] transition-colors">+91 8709758581</div>
+                  </div>
+                </a>
+
+                <div className="flex items-center gap-4 group cursor-crosshair relative">
+                  <div className="w-10 h-10 border border-[var(--color-cyber-pink)] flex items-center justify-center text-[var(--color-cyber-pink)] group-hover:bg-[var(--color-cyber-pink)] group-hover:text-black transition-colors">
+                    <FaLocationDot size={18} />
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-[var(--color-cyber-yellow)] flex items-center gap-2 cursor-default">
+                      GEO.LOC <span className="animate-pulse w-2 h-2 bg-[var(--color-cyber-pink)] rounded-full inline-block"></span>
+                    </div>
+                    <div className="group-hover:text-[var(--color-cyber-pink)] transition-colors tracking-wide cursor-default">
+                      Belabagan, B.Deoghar, Jharkhand
+                    </div>
+                    <div className="text-[10px] text-[var(--color-cyber-cyan)] mt-1 font-mono cursor-default">
+                      COORD: 24°29'N 86°42'E
+                    </div>
+                  </div>
+                  {/* Targeting Reticle Decor */}
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="w-8 h-8 border border-[var(--color-cyber-pink)] rounded-full relative">
+                      <div className="absolute top-1/2 left-0 w-full h-[1px] bg-[var(--color-cyber-pink)]"></div>
+                      <div className="absolute top-0 left-1/2 w-[1px] h-full bg-[var(--color-cyber-pink)]"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* SOCIAL ICONS */}
-            <div className="bg-gray-800/30 rounded-xl p-6 border border-white/10">
-              <h4 className="font-semibold text-white mb-4">Follow Me</h4>
-
-              <div className="flex space-x-4">
-                <a
-                  href="https://github.com/roshnikumari-21"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaGithub />
-                </a>
-
-                <a
-                  href="https://x.com/Roshnisingh_21"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaTwitter />
-                </a>
-
-                <a
-                  href="https://www.linkedin.com/in/roshni-kumari-2aa61928a/"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaLinkedin />
-                </a>
-
-                <a
-                  href="https://www.instagram.com/roshnisingh_21/"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaInstagram />
-                </a>
-
-                <a
-                  href="https://www.facebook.com/profile.php?id=61581885718089"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaFacebook />
-                </a>
+            <div className="cyber-card p-6 bg-black/60">
+              <h3 className="text-[var(--color-cyber-yellow)] font-mono text-sm mb-4 border-b border-[var(--color-cyber-yellow)]/30 pb-2">
+                // EXTERNAL_LINKS
+              </h3>
+              <div className="flex gap-4 flex-wrap">
+                {[
+                  { icon: FaGithub, link: "https://github.com/roshnikumari-21" },
+                  { icon: FaLinkedin, link: "https://www.linkedin.com/in/roshni-kumari-2aa61928a/" },
+                  { icon: FaTwitter, link: "https://x.com/Roshnisingh_21" },
+                  { icon: FaInstagram, link: "https://www.instagram.com/roshnisingh_21/" },
+                  { icon: FaFacebook, link: "https://www.facebook.com/profile.php?id=61581885718089" }
+                ].map((social, i) => (
+                  <a
+                    key={i}
+                    href={social.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-12 h-12 flex items-center justify-center border border-[var(--color-cyber-charcoal)] text-gray-400 hover:text-[var(--color-cyber-yellow)] hover:border-[var(--color-cyber-yellow)] hover:shadow-[0_0_10px_rgba(168,85,247,0.5)] transition-all bg-black"
+                  >
+                    <social.icon size={20} />
+                  </a>
+                ))}
               </div>
             </div>
           </div>
 
           {/* RIGHT: CONTACT FORM */}
-          {/* Contact Form */}
-          <div ref={formRef}>
-            <form onSubmit={handleSubmit} className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                    Your Name *
-                  </label>
+          <div>
+            <form onSubmit={handleSubmit} className="cyber-card p-8 bg-black/80 relative">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--color-cyber-cyan)] via-[var(--color-cyber-pink)] to-[var(--color-cyber-yellow)]"></div>
+              
+              <div className="mb-6">
+                <div className="text-[var(--color-cyber-cyan)] font-mono text-sm mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-[var(--color-cyber-cyan)] animate-pulse"></span>
+                  TRANSMISSION_PROTOCOL ENCRYPTED
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="relative group">
                   <input
                     type="text"
                     id="name"
@@ -259,14 +221,11 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
-                    placeholder="Roshni Kumari"
+                    className="cyber-input"
+                    placeholder="// ENTER_IDENTIFIER"
                   />
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                    Email Address *
-                  </label>
+                <div className="relative group">
                   <input
                     type="email"
                     id="email"
@@ -274,16 +233,13 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
-                    placeholder="roshni@example.com"
+                    className="cyber-input"
+                    placeholder="// ENTER_COM_LINK"
                   />
                 </div>
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
-                  Subject *
-                </label>
+              <div className="relative group mb-8">
                 <input
                   type="text"
                   id="subject"
@@ -291,38 +247,36 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
-                  placeholder="Project Collaboration"
+                  className="cyber-input"
+                  placeholder="// SUBJECT_HEADER"
                 />
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Your Message *
-                </label>
+              <div className="relative group mb-10">
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
                   required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400 resize-none"
-                  placeholder="Tell me about your project..."
+                  rows={5}
+                  className="cyber-input resize-none"
+                  placeholder="// ENTER_PAYLOAD..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25"
+                disabled={isTransmitting}
+                className={`cyber-button w-full text-center hover:glitch-text ${isTransmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                data-text={isTransmitting ? "[ TRANSMITTING... ]" : "[ INITIATE_UPLINK ]"}
               >
-                Send Message
-                <span className="ml-2">🚀</span>
+                {isTransmitting ? "[ TRANSMITTING... ]" : "[ INITIATE_UPLINK ]"}
               </button>
 
-              <p className="text-gray-400 text-sm text-center mt-4">
-                I typically respond within 24 hours
-              </p>
+              <div className="mt-4 text-center text-[10px] font-mono text-gray-500 uppercase tracking-widest">
+                System will process request within 24 cyber-hours.
+              </div>
             </form>
           </div>
 

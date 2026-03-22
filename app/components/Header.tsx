@@ -1,58 +1,27 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import gsap from 'gsap';
+import { useState } from 'react';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const headerRef = useRef(null);
-  const navItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
-
-  useEffect(() => {
-
-    gsap.fromTo(headerRef.current,
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
-    );
-
-
-    gsap.fromTo(navItemsRef.current,
-      { y: -20, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.5,
-        ease: 'power2.out'
-      }
-    );
-  }, []);
-
-  const addToRefs = (el: HTMLAnchorElement | null) => {
-    if (el && !navItemsRef.current.includes(el)) {
-      navItemsRef.current.push(el);
-    }
-  };
 
   return (
-    <header ref={headerRef} className="fixed w-full bg-gray-900/80 backdrop-blur-md z-50 border-b border-white/10">
+    <header className="fixed w-full bg-black/80 backdrop-blur-md z-50 border-b border-[var(--color-cyber-cyan)]/50">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors duration-300">
-            Roshni
+          <a href="#" className="text-2xl font-bold glitch-text text-white hover:text-[var(--color-cyber-cyan)] transition-colors duration-300" data-text="ROSHNI_K">
+            ROSHNI_K
           </a>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-8">
-            {['About', 'Resume', 'Certificates', 'Projects', 'Skills', 'Contact'].map((item, index) => (
+          <div className="hidden md:flex space-x-8 font-mono text-sm uppercase">
+            {['About', 'Experience', 'Projects', 'Skills', 'Music', 'Contact'].map((item) => (
               <a
                 key={item}
-                ref={addToRefs}
                 href={`#${item.toLowerCase()}`}
-                className="hover:text-blue-400 transition-all duration-300 transform hover:scale-110"
-                style={{ opacity: 0 }}
+                className="text-gray-300 hover:text-[var(--color-cyber-pink)] hover:shadow-[0_0_10px_var(--color-cyber-pink)] tracking-widest transition-all duration-300 transform hover:scale-110 relative group"
               >
+                <span className="text-[var(--color-cyber-yellow)] mr-1 group-hover:opacity-100 opacity-0 transition-opacity">&gt;</span>
                 {item}
               </a>
             ))}
@@ -60,24 +29,24 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white text-xl hover:text-blue-400 transition-colors"
+            className="md:hidden text-[var(--color-cyber-cyan)] text-xl hover:text-[var(--color-cyber-pink)] transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            ☰
+            [ MENU ]
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 space-y-4 bg-gray-800/95 backdrop-blur-md p-6 rounded-lg border border-white/10">
-            {['About', 'Resume', 'Certificates', 'Projects', 'Skills', 'Contact'].map((item) => (
+          <div className="md:hidden mt-4 space-y-4 bg-black/95 backdrop-blur-md p-6 rounded-none border border-[var(--color-cyber-cyan)]/50 font-mono text-sm uppercase">
+            {['About', 'Experience', 'Projects', 'Skills', 'Music', 'Contact'].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="block hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-white/5 transition-all duration-300"
+                className="block text-[var(--color-cyber-cyan)] hover:text-black py-3 px-4 rounded-none hover:bg-[var(--color-cyber-cyan)] transition-all duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item}
+                &gt; {item}
               </a>
             ))}
           </div>

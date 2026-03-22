@@ -76,32 +76,52 @@ const certificates: Cert[] = [
 
 export default function Certificates() {
     return (
-        <section id="certificates" className="container mx-auto px-6 py-16">
-            <div className="max-w-5xl mx-auto">
-                <h2 className="text-3xl font-semibold mb-4">Certificates</h2>
-                <p className="text-gray-300 mb-6">A selection of my professional certificates. Place files under <code className="text-white">/public/certs/</code>.</p>
+        <section id="certificates" className="container mx-auto px-6 py-16 relative z-10">
+            <div className="max-w-6xl mx-auto">
+                
+                <div className="mb-14 text-center">
+                  <h2 className="text-4xl font-bold text-white glitch-text mb-4" data-text="AUTHORIZATION // CLEARANCE">
+                    AUTHORIZATION // CLEARANCE
+                  </h2>
+                  <p className="text-[var(--color-cyber-cyan)] font-mono text-sm uppercase">
+                    &gt; verified security nodes and certifications
+                  </p>
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {certificates.map((c) => (
                         <a
                             key={c.id}
                             href={c.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block bg-gray-800/60 border border-white/6 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                            className="block cyber-card bg-black/80 hover:bg-[var(--color-cyber-charcoal)] group transition-colors duration-300 relative"
                         >
-                            <div className="h-40 bg-black/20 flex items-center justify-center">
+                            {/* Neon tab decoration */}
+                            <div className="absolute top-0 right-0 w-8 h-8 overflow-hidden pointer-events-none">
+                                <div className="w-[1px] h-12 bg-[var(--color-cyber-yellow)] transform rotate-45 translate-x-3 -translate-y-2 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            </div>
+                            
+                            <div className="p-2 border-b border-[var(--color-cyber-charcoal)] text-[10px] font-mono text-[var(--color-cyber-cyan)] flex justify-between">
+                                <span>SEC_L{c.id}</span>
+                                <span className="text-[var(--color-cyber-pink)]">{c.date}</span>
+                            </div>
+
+                            <div className="h-32 bg-black flex items-center justify-center p-2 relative overflow-hidden">
+                                {/* Scanline on image */}
+                                <div className="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'4\' height=\'4\'><rect width=\'4\' height=\'1\' fill=\'rgba(0,243,255,0.1)\'/></svg>')] pointer-events-none group-hover:opacity-100 opacity-30 transition-opacity"></div>
+                                
                                 {c.image ? (
                                     // eslint-disable-next-line @next/next/no-img-element
-                                    <img src={c.image} alt={c.title} className="object-contain h-full w-full" />
+                                    <img src={c.image} alt={c.title} className="object-cover w-full h-full opacity-70 group-hover:opacity-100 transition-opacity" />
                                 ) : (
-                                    <div className="text-gray-400">No preview</div>
+                                    <div className="text-[var(--color-cyber-pink)] font-mono text-xs opacity-50 animate-pulse">NO VISUAL DATA</div>
                                 )}
                             </div>
 
-                            <div className="p-4">
-                                <h3 className="font-medium">{c.title}</h3>
-                                <p className="text-sm text-gray-400">{c.issuer} • {c.date}</p>
+                            <div className="p-4 border-t border-[var(--color-cyber-charcoal)]">
+                                <h3 className="font-mono text-sm text-white uppercase truncate mb-1" title={c.title}>{c.title}</h3>
+                                <p className="font-mono text-[11px] text-[var(--color-cyber-yellow)] truncate">{c.issuer}</p>
                             </div>
                         </a>
                     ))}

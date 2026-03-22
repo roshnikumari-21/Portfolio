@@ -1,212 +1,145 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import AnimationWrapper from './AnimationWrapper';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const projects = [
-  {
-    id: 1,
-    title: "KnightMare - Chess AI Platform",
-    description: "Full-stack chess application with AI opponent using Stockfish engine, user authentication, and global leaderboard. Features real-time game play and user statistics tracking.",
-    technologies: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS", "Stockfish"],
-    github: "https://github.com/roshnikumari-21/KnightMare",
-    live: "https://knightmare.onrender.com/",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "AuraPredict - Cancer Prediction ML App",
-    description: "Machine learning web application for early cancer prediction using diagnostic data. Features real-time predictions and interactive data visualizations.",
-    technologies: ["Python", "Streamlit", "Pandas", "Scikit-learn", "ML"],
-    github: "https://github.com/roshnikumari-21/AuraPredict",
-    live: "#",
-    featured: false
-  },
-  {
-    id: 3,
-    title: "ProfPort - Professor Portfolio System",
-    description: "Comprehensive portfolio management system for professors with admin controls, dynamic content management, and intuitive interface for academic professionals.",
-    technologies: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS"],
-    github: "https://github.com/roshnikumari-21/ProfPort",
-    live: "https://profport.onrender.com/",
-    featured: true
-  },
-  {
-    id: 4,
-    title: "Stackelberg Competition Research",
-    description: "Research project implementing genetic algorithms for hierarchical decision-making in supply chain optimization using Stackelberg competition models.",
-    technologies: ["Python", "DEAP", "SciPy", "NumPy", "Genetic Algorithms"],
-    github: "https://github.com/roshnikumari-21/Capstone_GA_1",
-    live: "#",
-    featured: false
-  },
-  {
-  id: 5,
-  title: "StyleSync & Swyft - AI Fashion Platform",
-  description: "Myntra Hackerramp project featuring AI-powered fashion experience with virtual try-on (StyleSync) and personalized discovery feed (Swyft). Uses computer vision, generative AI, and recommendation systems to create immersive, intelligent fashion shopping for Gen Z.",
-  technologies: ["React", "Node.js", "TensorFlow.js", "Python", "OpenCV", "Generative AI", "Computer Vision", "MongoDB"],
-  github: "https://github.com/roshnikumari-21/MyntraHackerRamp",
-  live: "https://myntra-hackerramp-five.vercel.app/",
-  featured: true
-},
-{
-  id: 6,
-  title: "DSA Solutions & Interview Prep",
-  description: "Comprehensive collection of Data Structures and Algorithms solutions organized by topic. Serves as personal reference and interview preparation resource with clean, well-structured code and explanations for frequently asked coding problems across platforms.",
-  technologies: ["C++", "Python", "Java", "Algorithms", "Data Structures", "Problem Solving"],
-  github: "https://github.com/roshnikumari-21/DSA",
-  live: "#",
-  featured: false
-}
-];
-
 export default function Projects() {
-  const sectionRef = useRef(null);
-  const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.section-title',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%'
-          }
-        }
-      );
-
-      projectRefs.current.forEach((project, index) => {
-        if (project) {
-          gsap.fromTo(project,
-            { 
-              y: 60, 
-              opacity: 0,
-              scale: 0.9
-            },
-            {
-              y: 0,
-              opacity: 1,
-              scale: 1,
-              duration: 0.8,
-              delay: index * 0.2,
-              scrollTrigger: {
-                trigger: project,
-                start: 'top 85%',
-                toggleActions: 'play none none reverse'
-              }
-            }
-          );
-        }
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  const addToProjectRefs = (el: HTMLDivElement | null) => {
-    if (el && !projectRefs.current.includes(el)) {
-      projectRefs.current.push(el);
+  const projects = [
+    {
+      id: "PRJ-01",
+      title: "KnightMare",
+      description: "Full-stack chess application with AI opponent using Stockfish engine, user authentication, and global leaderboard. Features real-time game play and user statistics tracking.",
+      technologies: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS", "Stockfish"],
+      github: "https://github.com/roshnikumari-21/KnightMare",
+      live: "https://knightmare.onrender.com/",
+      type: "AI Platform"
+    },
+    {
+      id: "PRJ-02",
+      title: "DeepTruth",
+      description: "Advanced deepfake detection system utilizing deep learning architectures to analyze video frames and identify synthetic media with high accuracy.",
+      technologies: ["Python", "TensorFlow", "React", "AWS", "FastAPI"],
+      github: "#",
+      live: "#",
+      type: "ML/Security"
+    },
+    {
+      id: "PRJ-03",
+      title: "ProfPort",
+      description: "Comprehensive portfolio management system for professors with admin controls, dynamic content management, and intuitive interface for academic professionals.",
+      technologies: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS"],
+      github: "https://github.com/roshnikumari-21/ProfPort",
+      live: "https://profport.onrender.com/",
+      type: "Web System"
+    },
+    {
+      id: "PRJ-04",
+      title: "StyleSync & Swyft",
+      description: "AI-powered fashion experience with virtual try-on and personalized discovery feed. Uses computer vision and generative AI to create immersive shopping.",
+      technologies: ["React", "Node.js", "TensorFlow.js", "Generative AI", "MongoDB"],
+      github: "https://github.com/roshnikumari-21/MyntraHackerRamp",
+      live: "https://myntra-hackerramp-five.vercel.app/",
+      type: "Computer Vision"
+    },
+    {
+      id: "PRJ-05",
+      title: "CatGPT",
+      description: "A specialized conversational AI tailored to feline behavior advice, using fine-tuned open-source LLMs deployed via scalable serverless architecture.",
+      technologies: ["LangChain", "Next.js", "OpenAI API", "Tailwind"],
+      github: "#",
+      live: "#",
+      type: "LLM App"
+    },
+    {
+      id: "PRJ-06",
+      title: "AuraPredict",
+      description: "Machine learning web application for early cancer prediction using diagnostic data. Features real-time predictions and interactive data visualizations.",
+      technologies: ["Python", "Streamlit", "Pandas", "Scikit-learn"],
+      github: "https://github.com/roshnikumari-21/AuraPredict",
+      live: "#",
+      type: "Health Tech"
     }
-  };
+  ];
 
   return (
-    <section ref={sectionRef} id="projects" className="py-20 bg-gray-900">
+    <section id="projects" className="py-20 relative z-10">
       <div className="container mx-auto px-6">
-        <h2 className="section-title text-3xl md:text-4xl font-bold text-center mb-4">Featured Projects</h2>
-        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
-          Here are some of my projects that showcase my skills in full-stack development, machine learning, and problem-solving
-        </p>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
+        <div className="mb-14 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white glitch-text mb-4" data-text="THE ARSENAL // PROJECTS">
+            THE ARSENAL // PROJECTS
+          </h2>
+          <p className="text-[var(--color-cyber-cyan)] font-mono text-sm max-w-2xl mx-auto">
+            &gt; DECRYPTING DATASHARDS... MODULES LOADED SUCESSFULLY.
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {projects.map((project) => (
             <div
               key={project.id}
-              ref={addToProjectRefs}
-              className={`bg-gray-800 rounded-xl p-6 border transition-all duration-500 transform hover:-translate-y-2 shadow-lg hover:shadow-xl ${
-                project.featured 
-                  ? 'border-blue-500/30 hover:border-blue-500/50 hover:shadow-blue-500/10' 
-                  : 'border-white/10 hover:border-blue-500/30 hover:shadow-blue-500/5'
-              }`}
+              className="group relative cyber-card p-6 bg-black/60 backdrop-blur-md overflow-hidden"
             >
-              {project.featured && (
-                <div className="inline-block bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-medium mb-4 border border-blue-500/30">
-                  ⭐ Featured
-                </div>
-              )}
+              {/* Scanline Effect */}
+              <div className="absolute inset-0 bg-[var(--color-cyber-cyan)]/5 mix-blend-overlay pointer-events-none group-hover:bg-[var(--color-cyber-pink)]/10 transition-colors duration-500"></div>
               
-              <h3 className="text-xl font-bold mb-3 text-white">{project.title}</h3>
-              <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
+              <div className="absolute top-0 right-0 p-2 text-xs font-mono text-[var(--color-cyber-charcoal)] group-hover:text-[var(--color-cyber-pink)] transition-colors opacity-50">
+                {project.id}
+              </div>
+
+              <div className="mb-4">
+                <span className="text-[var(--color-cyber-yellow)] font-mono text-xs uppercase tracking-widest border-b border-[var(--color-cyber-yellow)]/30 pb-1 mb-3 inline-block">
+                  [ {project.type} ]
+                </span>
+                
+                {/* Chromatic Aberration Text Effect on Hover */}
+                <h3 className="text-2xl font-bold text-white mb-2 uppercase group-hover:block transition-all duration-300 relative">
+                  <span className="relative z-10 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[var(--color-cyber-cyan)] group-hover:to-[var(--color-cyber-pink)]">
+                    {project.title}
+                  </span>
+                  {/* Pseudo elements for chromatic aberration */}
+                  <span className="absolute left-[2px] top-0 text-[var(--color-cyber-pink)] opacity-0 group-hover:opacity-70 -z-10 transition-opacity">
+                    {project.title}
+                  </span>
+                  <span className="absolute -left-[2px] top-0 text-[var(--color-cyber-cyan)] opacity-0 group-hover:opacity-70 -z-10 transition-opacity">
+                    {project.title}
+                  </span>
+                </h3>
+              </div>
               
-              <div className="flex flex-wrap gap-2 mb-4">
+              <p className="font-mono text-sm text-gray-400 mb-6 h-24 overflow-hidden relative group-hover:text-gray-200 transition-colors">
+                {project.description}
+                <span className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-black to-transparent"></span>
+              </p>
+              
+              <div className="flex flex-wrap items-start content-start gap-2 mb-10 mt-auto min-h-[3rem]">
                 {project.technologies.map(tech => (
                   <span
                     key={tech}
-                    className="bg-gray-700/50 text-gray-300 px-3 py-1 rounded-full text-sm border border-gray-600/50"
+                    className="text-[10px] font-bold tracking-wider uppercase px-3 py-1 bg-[var(--color-cyber-cyan)]/10 text-[var(--color-cyber-cyan)] rounded-full border border-[var(--color-cyber-cyan)]/30 group-hover:border-[var(--color-cyber-cyan)] group-hover:shadow-[0_0_8px_var(--color-cyber-cyan)] transition-all flex-shrink-0"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
               
-              <div className="flex space-x-4">
+              <div className="flex space-x-0 border-t border-[var(--color-cyber-charcoal)] pt-4 absolute bottom-6 left-6 right-6">
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-300 transition-colors duration-300 flex items-center gap-1 group"
+                  className="flex-1 text-center font-mono text-sm text-gray-400 hover:text-[var(--color-cyber-pink)] transition-colors hover:bg-[var(--color-cyber-pink)]/10 py-2 border-r border-[var(--color-cyber-charcoal)]"
                 >
-                  <span>GitHub</span>
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  &lt; SOURCE /&gt;
                 </a>
                 <a
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-400 hover:text-green-300 transition-colors duration-300 flex items-center gap-1 group"
+                  className="flex-1 text-center font-mono text-sm text-gray-400 hover:text-[var(--color-cyber-yellow)] transition-colors hover:bg-[var(--color-cyber-yellow)]/10 py-2"
                 >
-                  <span>Live Demo</span>
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  [ EXECUTE ]
                 </a>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* GitHub Stats */}
-        <div className="mt-16 text-center">
-          <AnimationWrapper animation="fadeUp">
-            <div className="bg-gray-800/50 rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold mb-6 text-white">Coding Journey</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-400 mb-2">1500+</div>
-                  <div className="text-gray-400 text-sm">Problems Solved</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-400 mb-2">3★</div>
-                  <div className="text-gray-400 text-sm">CodeChef Rating</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-400 mb-2">1227</div>
-                  <div className="text-gray-400 text-sm">Codeforces Max</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-400 mb-2">1726</div>
-                  <div className="text-gray-400 text-sm">LeetCode Contest</div>
-                </div>
-              </div>
-            </div>
-          </AnimationWrapper>
         </div>
       </div>
     </section>
