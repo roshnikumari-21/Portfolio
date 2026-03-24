@@ -71,6 +71,14 @@ const certificates: Cert[] = [
         date: '2024',
         url: '/certs/cert8.png',
         image: '/certs/cert8.png'
+    },
+    {
+        id: 9,
+        title: 'Example Certificate 9',
+        issuer: 'Another Issuer',
+        date: '2024',
+        url: '/certs/cert9.jpeg',
+        image: '/certs/cert9.jpeg'
     }
 ]
 
