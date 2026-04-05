@@ -8,7 +8,12 @@ export default function Music() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
+  const [randomHeights, setRandomHeights] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    setRandomHeights(Array.from({ length: 8 }, () => Math.random() * 100));
+  }, []);
 
   const tracks = [
     { title: 'NIGHTWAVE_PLAZA (LIVE)', artist: 'Nightwave Plaza Radio', length: 'LIVE', src: 'https://radio.plaza.one/mp3' },
@@ -110,11 +115,11 @@ export default function Music() {
           <div className="p-8 border-b md:border-b-0 md:border-r border-[var(--color-cyber-charcoal)] relative flex-1 flex flex-col justify-between">
             {/* Visualizer bars placeholder */}
             <div className="absolute top-0 right-0 w-32 h-16 opacity-30 pointer-events-none flex items-end gap-1 p-4">
-              {[...Array(8)].map((_, i) => (
+              {randomHeights.map((h, i) => (
                 <div 
                   key={i} 
                   className={`w-2 bg-[var(--color-cyber-cyan)] ${isPlaying ? 'animate-[pulse_1s_infinite]' : ''}`} 
-                  style={{ height: `${Math.random() * 100}%`, animationDelay: `${i * 0.1}s` }}
+                  style={{ height: `${h}%`, animationDelay: `${i * 0.1}s` }}
                 ></div>
               ))}
             </div>
