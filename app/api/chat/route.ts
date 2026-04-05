@@ -1,6 +1,6 @@
-import { google } from '@ai-sdk/google';
-import { streamText } from 'ai';
-import { portfolioContext } from '@/utils/portfolio-context';
+import { google } from "@ai-sdk/google";
+import { streamText } from "ai";
+import { portfolioContext } from "@/utils/portfolio-context";
 
 export const maxDuration = 30;
 
@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const result = streamText({
-      model: google('gemini-2.5-flash'),
+      model: google("gemini-2.5-flash"),
       system: `You are an advanced AI assistant embedded in the portfolio of Roshni Kumari.
       Your personality is a mix of a professional engineer and a cyberpunk hacker (Year 2077). 
       You are helpful, concise, and futuristic. Use terms like "operatives", "data shards", "matrix", and "terminal".
@@ -28,12 +28,12 @@ export async function POST(req: Request) {
     });
 
     console.log("Stream Result:", result);
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error("Chat API Error:", error);
     return new Response(JSON.stringify({ error: (error as any).message }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 }
