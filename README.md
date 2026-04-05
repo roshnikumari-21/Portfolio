@@ -3,7 +3,7 @@
 Welcome to my personal portfolio! This project is a complete UI/UX overhaul featuring a **Cyberpunk / Neo-Tokyo Hacker aesthetic**. Built using Next.js, and styled with vanilla CSS/Tailwind to provide an immersive, high-fidelity experience.
 
 ### 🔗 Live Preview (Cyberpunk Theme)
-[Click here to view the live Vercel deployment!](https://portfolio-lwy9-git-feature-cyber-8d2a36-roshni-kumaris-projects.vercel.app/)
+[Click here to view the live Vercel deployment!](https://cyberpunk.roshnikumari.online/)
 
 ---
 
