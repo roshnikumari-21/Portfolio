@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   description: "Cyberpunk Developer Portfolio",
 };
 
+import ChatbotWrapper from "./components/ChatbotWrapper";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,6 +30,7 @@ export default function RootLayout({
         className={`${orbitron.variable} ${firaCode.variable} antialiased bg-[#050505] text-white font-sans overflow-x-hidden`}
       >
         {children}
+        <ChatbotWrapper />
       </body>
     </html>
   );

@@ -54,7 +54,7 @@ export default function Projects() {
       technologies: ["Python", "Streamlit", "Pandas", "Scikit-learn"],
       github: "https://github.com/roshnikumari-21/AuraPredict",
       live: "#",
-      type: "Health Tech"
+      type: "Health Tech sector"
     }
   ];
 
