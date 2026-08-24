@@ -2,87 +2,124 @@
 
 import { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import { prefersReducedMotion, registerMotion } from '../lib/motion';
+
+const navItems = [
+  { label: 'About', href: '#about' },
+  { label: 'Resume', href: '#resume' },
+  { label: 'Certificates', href: '#certificates' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Contact', href: '#contact' },
+];
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const headerRef = useRef(null);
-  const navItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState('');
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    registerMotion();
+    if (!prefersReducedMotion() && headerRef.current) {
+      gsap.fromTo(
+        headerRef.current,
+        { y: -24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.15 },
+      );
+    }
 
-    gsap.fromTo(headerRef.current,
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const ids = navItems.map((item) => item.href.slice(1));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0 },
     );
 
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
 
-    gsap.fromTo(navItemsRef.current,
-      { y: -20, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.5,
-        ease: 'power2.out'
-      }
-    );
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      observer.disconnect();
+    };
   }, []);
 
-  const addToRefs = (el: HTMLAnchorElement | null) => {
-    if (el && !navItemsRef.current.includes(el)) {
-      navItemsRef.current.push(el);
-    }
-  };
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
 
   return (
-    <header ref={headerRef} className="fixed w-full bg-gray-900/80 backdrop-blur-md z-50 border-b border-white/10">
-      <nav className="container mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors duration-300">
-            Roshni
-          </a>
+    <header
+      ref={headerRef}
+      className={`fixed top-0 z-50 w-full transition-colors duration-500 ${
+        scrolled || isMenuOpen
+          ? 'bg-ink/80 backdrop-blur-md border-b border-line'
+          : 'bg-transparent border-b border-transparent'
+      }`}
+    >
+      <nav className="flex items-center justify-between px-5 py-4 md:px-10" aria-label="Primary">
+        <a href="#hero" className="font-heading text-lg tracking-[0.18em] uppercase text-paper">
+          Roshni
+        </a>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-8">
-            {['About', 'Resume', 'Certificates', 'Projects', 'Skills', 'Contact'].map((item, index) => (
-              <a
-                key={item}
-                ref={addToRefs}
-                href={`#${item.toLowerCase()}`}
-                className="hover:text-blue-400 transition-all duration-300 transform hover:scale-110"
-                style={{ opacity: 0 }}
-              >
-                {item}
-              </a>
-            ))}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-white text-xl hover:text-blue-400 transition-colors"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            ☰
-          </button>
+        <div className="hidden lg:flex items-center gap-8">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className={`kicker !normal-case tracking-[0.16em] transition-colors duration-300 ${
+                active === item.href.slice(1) ? 'text-accent' : 'text-muted hover:text-paper'
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden mt-4 space-y-4 bg-gray-800/95 backdrop-blur-md p-6 rounded-lg border border-white/10">
-            {['About', 'Resume', 'Certificates', 'Projects', 'Skills', 'Contact'].map((item) => (
+        <button
+          type="button"
+          className="lg:hidden kicker text-paper"
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-nav"
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          {isMenuOpen ? 'Close' : 'Menu'}
+        </button>
+      </nav>
+
+      {isMenuOpen && (
+        <div
+          id="mobile-nav"
+          className="lg:hidden min-h-[100svh] bg-ink px-5 pb-16 pt-6"
+        >
+          <div className="flex flex-col gap-5">
+            {navItems.map((item) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="block hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-white/5 transition-all duration-300"
+                key={item.href}
+                href={item.href}
+                className="font-heading text-4xl tracking-tight text-paper"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </div>
-        )}
-      </nav>
+        </div>
+      )}
     </header>
-  )
+  );
 }

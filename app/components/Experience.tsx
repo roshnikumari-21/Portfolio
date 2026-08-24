@@ -3,6 +3,8 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SectionHeading from './SectionHeading';
+import { prefersReducedMotion, registerMotion } from '../lib/motion';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -11,128 +13,189 @@ if (typeof window !== 'undefined') {
 const experiences = [
   {
     id: 1,
-    title: "SDE Intern",
-    company: "Flipkart",
-    period: "2024",
+    title: 'SDE Intern',
+    company: 'Flipkart',
+    period: '2026',
+    dates: 'May 2026 – Jul 2026',
+    location: 'Bengaluru (On-site)',
     description: [
-      "Enhanced the Content Management Platform (Flipkart Minutes – Neolite ADP UI), improving automation efficiency by 30%",
-      "Built reusable UI components reducing manual processes across 3 teams and accelerating feature rollout",
-      "Partnered with Product & Engineering teams to design and deploy scalable solutions, boosting system reliability"
+      "Developed and shipped production APIs, automated compliance workflows, and contributed to backend services powering Flipkart's Compliance Management Platform.",
+      'Improved infrastructure security through secret migration, participated in production deployments, and enhanced operational dashboards.',
     ],
-    technologies: ["React", "Redux", "Node.js", "Java", "Dropwizard", "Cursor AI"],
-    type: "internship"
-  }
+    technologies: ['Java', 'Spring Boot', 'Python', 'MySQL', 'TiDB', 'Kubernetes', 'Helm'],
+    type: 'internship',
+  },
+  {
+    id: 2,
+    title: 'SDE Intern',
+    company: 'Flipkart',
+    period: '2025',
+    dates: 'May 2025 – Jul 2025',
+    location: 'Bengaluru (On-site)',
+    description: [
+      'Enhanced the Content Management Platform (Flipkart Minutes – Neolite ADP UI), improving automation efficiency by 30% and streamlining internal workflows.',
+      'Built reusable UI components, reducing manual processes across 3 teams and accelerating feature rollout.',
+    ],
+    technologies: ['React', 'Redux', 'Node.js', 'Java', 'Dropwizard', 'Cursor AI'],
+    type: 'internship',
+  },
+];
+
+const roles = [
+  {
+    id: 1,
+    title: 'Member',
+    org: 'Programming Club of NIT Jamshedpur',
+    dates: 'Apr 2025 – Present',
+  },
+  {
+    id: 2,
+    title: 'General Secretary',
+    org: 'Society of Computer Science and Engineering (SCSE)',
+    dates: 'Feb 2025 – Present',
+    link: 'https://scse-nitjsr.in/',
+  },
+  {
+    id: 3,
+    title: 'Class Representative',
+    org: 'NIT Jamshedpur',
+    dates: 'Sep 2024 – Present',
+  },
 ];
 
 export default function Experience() {
-  const sectionRef = useRef(null);
-  const expRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionRef = useRef<HTMLElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
+    registerMotion();
     const ctx = gsap.context(() => {
-      gsap.fromTo('.section-title',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%'
-          }
-        }
-      );
+      if (prefersReducedMotion()) return;
 
-      expRefs.current.forEach((exp, index) => {
-        if (exp) {
-          gsap.fromTo(exp,
-            { 
-              x: -50, 
-              opacity: 0 
+      if (lineRef.current) {
+        gsap.fromTo(
+          lineRef.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 70%',
+              end: 'bottom 40%',
+              scrub: true,
             },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.8,
-              delay: index * 0.3,
-              scrollTrigger: {
-                trigger: exp,
-                start: 'top 85%',
-                toggleActions: 'play none none reverse'
-              }
-            }
-          );
-        }
+          },
+        );
+      }
+
+      itemRefs.current.forEach((item) => {
+        if (!item) return;
+        gsap.fromTo(
+          item,
+          { y: 48, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse',
+            },
+          },
+        );
       });
-    });
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  const addToExpRefs = (el: HTMLDivElement | null) => {
-    if (el && !expRefs.current.includes(el)) {
-      expRefs.current.push(el);
-    }
-  };
-
   return (
-    <section ref={sectionRef} id="experience" className="py-20 bg-gray-800/50 backdrop-blur-sm">
-      <div className="container mx-auto px-6">
-        <h2 className="section-title text-3xl md:text-4xl font-bold text-center mb-12">Experience</h2>
-        
-        <div className="max-w-4xl mx-auto">
+    <section ref={sectionRef} id="experience" className="section-pad relative z-10">
+      <div className="mx-auto max-w-[1400px]">
+        <SectionHeading index="04" title="Experience" kicker="Journey" />
+
+        <div className="relative">
+          <div
+            ref={lineRef}
+            className="absolute left-[5.5rem] top-0 hidden h-full w-px origin-top bg-line md:block"
+            aria-hidden="true"
+          />
+
           {experiences.map((exp, index) => (
-            <div
+            <article
               key={exp.id}
-              ref={addToExpRefs}
-              className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-blue-500/30 transition-all duration-500 mb-8"
+              ref={(el) => {
+                itemRefs.current[index] = el;
+              }}
+              className="grid gap-8 border-t border-line py-12 md:grid-cols-12 md:py-16"
             >
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">{exp.title}</h3>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xl font-semibold text-blue-400">{exp.company}</span>
-                    <span className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm border border-blue-500/30">
-                      {exp.period}
+              <div className="md:col-span-3">
+                <p className="font-display italic text-6xl md:text-7xl leading-none text-accent">{exp.period}</p>
+                <p className="kicker mt-4">{exp.dates}</p>
+                <p className="kicker mt-2">{exp.location}</p>
+                <p className="kicker mt-2 text-accent">Internship</p>
+              </div>
+
+              <div className="md:col-span-9">
+                <h3 className="font-heading text-3xl md:text-5xl tracking-tight">{exp.title}</h3>
+                <p className="mt-2 text-xl text-muted">{exp.company}</p>
+
+                <ul className="mt-8 space-y-4 text-paper/80 leading-relaxed">
+                  {exp.description.map((point) => (
+                    <li key={point} className="grid grid-cols-[auto_1fr] gap-4">
+                      <span className="mt-2 h-px w-6 bg-accent" aria-hidden="true" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+                  {exp.technologies.map((tech) => (
+                    <span key={tech} className="kicker">
+                      {tech}
                     </span>
-                  </div>
-                </div>
-                <div className="bg-green-500/20 text-green-300 px-4 py-2 rounded-full text-sm font-medium border border-green-500/30">
-                  {exp.type === 'internship' ? 'Internship' : 'Full-time'}
+                  ))}
                 </div>
               </div>
-
-              <ul className="space-y-3 mb-6">
-                {exp.description.map((point, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-gray-300">
-                    <span className="text-blue-400 mt-1">▸</span>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-2">
-                {exp.technologies.map(tech => (
-                  <span
-                    key={tech}
-                    className="bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-sm border border-gray-700"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
+            </article>
           ))}
         </div>
 
-        {/* Achievement Badge */}
-        <div className="max-w-4xl mx-auto mt-12">
-          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-6 border border-purple-500/30 text-center">
-            <h4 className="text-xl font-bold text-white mb-2">🏆 Top 20 Finalist - Flipkart Runway Season 5</h4>
-            <p className="text-gray-300">
-              Selected among 50,000+ applicants for one of India's most prestigious internship programs
-            </p>
+        <div className="mt-8 border-t border-line pt-12">
+          <p className="kicker mb-8">Positions of Responsibility</p>
+          <div className="divide-y divide-line border-y border-line">
+            {roles.map((role) => (
+              <article key={role.id} className="grid gap-2 py-6 md:grid-cols-12 md:items-baseline">
+                <p className="kicker md:col-span-3">{role.dates}</p>
+                <div className="md:col-span-9">
+                  <h3 className="font-heading text-2xl">{role.title}</h3>
+                  <p className="mt-1 text-muted">{role.org}</p>
+                  {role.link && (
+                    <a
+                      href={role.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-block font-heading text-sm tracking-[0.16em] uppercase text-paper after:mt-1 after:block after:h-px after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full"
+                    >
+                      Website
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
           </div>
+        </div>
+
+        <div className="mt-8 border border-line px-6 py-8 md:px-10">
+          <p className="kicker mb-3">Milestone</p>
+          <h4 className="font-heading text-2xl md:text-3xl">Top 20 Finalist — Flipkart Runway Season 5</h4>
+          <p className="mt-3 max-w-2xl text-muted">
+            Selected among 50,000+ applicants for one of India&apos;s most prestigious internship programs · May 2025
+          </p>
         </div>
       </div>
     </section>

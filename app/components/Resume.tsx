@@ -1,35 +1,40 @@
+import Magnetic from './Magnetic';
+import SectionHeading from './SectionHeading';
+
 export default function Resume() {
-    return (
-        <section id="resume" className="container mx-auto px-6 py-16">
-            <div className="max-w-4xl mx-auto bg-gray-800/60 border border-white/10 rounded-lg p-8">
-                <h2 className="text-3xl font-semibold mb-4">Resume</h2>
-                <p className="text-gray-300 mb-6">
-                    Download or view my resume. Place your resume PDF at <code className="text-white">/public/resume.pdf</code> so this link works.
-                </p>
+  return (
+    <section id="resume" className="section-pad relative z-10">
+      <div className="mx-auto max-w-[1400px]">
+        <SectionHeading index="02" title="Resume" kicker="Curriculum" />
 
-                <div className="flex flex-col md:flex-row md:items-center md:space-x-6">
-                    <div className="mb-6 md:mb-0">
-                        <a
-                            href="/resume.pdf"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded mr-3"
-                        >
-                            View Resume
-                        </a>
+        <div className="grid items-end gap-10 border-t border-line pt-10 md:grid-cols-12">
+          <p className="md:col-span-7 text-lg md:text-2xl leading-relaxed text-paper/80 max-w-2xl">
+            Download or view my resume — a concise record of internships, projects, and competitive programming.
+          </p>
 
-                        <a
-                            href="/resume.pdf"
-                            download
-                            className="inline-block bg-gray-700 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded"
-                        >
-                            Download
-                        </a>
-                    </div>
-
-                    
-                </div>
-            </div>
-        </section>
-    )
+          <div className="md:col-span-5 flex flex-col sm:flex-row md:justify-end gap-4">
+            <Magnetic>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center border border-paper bg-paper px-7 py-3 font-heading text-sm tracking-[0.14em] uppercase text-ink transition-colors hover:bg-transparent hover:text-paper"
+              >
+                View Resume
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a
+                href="/resume.pdf"
+                download
+                className="inline-flex items-center justify-center border border-line px-7 py-3 font-heading text-sm tracking-[0.14em] uppercase text-paper transition-colors hover:border-paper"
+              >
+                Download
+              </a>
+            </Magnetic>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

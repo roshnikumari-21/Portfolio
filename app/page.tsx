@@ -1,5 +1,6 @@
 import Header from './components/Header'
 import Hero from './components/Hero'
+import TechMarquee from './components/TechMarquee'
 import About from './components/About'
 import Resume from './components/Resume'
 import Certificates from './components/Certificates'
@@ -10,9 +11,10 @@ import Contact from './components/Contact'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-900 text-white overflow-hidden">
+    <main className="relative z-10 min-h-screen text-paper">
       <Header />
       <Hero />
+      <TechMarquee />
       <About />
       <Resume />
       <Certificates />

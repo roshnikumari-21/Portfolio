@@ -3,114 +3,135 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
+import Magnetic from './Magnetic';
+import WireSculpture from './WireSculpture';
+import { prefersReducedMotion, registerMotion } from '../lib/motion';
 
 export default function Hero() {
-  const heroRef = useRef(null);
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
-  const buttonsRef = useRef(null);
-  const photoRef = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const lineRefs = useRef<HTMLSpanElement[]>([]);
+  const metaRef = useRef<HTMLDivElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tl = gsap.timeline();
-    
-    tl.fromTo(photoRef.current, 
-      { scale: 0, opacity: 0, rotation: -10 },
-      { scale: 1, opacity: 1, rotation: 0, duration: 1, ease: 'back.out(1.7)' }
-    )
-    .fromTo(titleRef.current, 
-      { y: 100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-      '-=0.5'
-    )
-    .fromTo(subtitleRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-      '-=0.5'
-    )
-    .fromTo(buttonsRef.current,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
-      '-=0.3'
-    );
+    registerMotion();
+    if (prefersReducedMotion()) {
+      gsap.set([lineRefs.current, metaRef.current, photoRef.current, ctaRef.current], {
+        opacity: 1,
+        y: 0,
+        clipPath: 'none',
+      });
+      return;
+    }
 
-    // Background animation
-    gsap.to(heroRef.current, {
-      background: 'linear-gradient(45deg, #1f2937, #111827, #1e40af)',
-      duration: 2,
-      ease: 'power1.inOut'
-    });
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      tl.fromTo(
+        photoRef.current,
+        { clipPath: 'inset(100% 0 0 0)', scale: 1.08 },
+        { clipPath: 'inset(0% 0 0 0)', scale: 1, duration: 1.15 },
+      )
+        .fromTo(
+          lineRefs.current,
+          { yPercent: 110 },
+          { yPercent: 0, duration: 1.05, stagger: 0.08 },
+          '-=0.7',
+        )
+        .fromTo(
+          metaRef.current,
+          { y: 28, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 },
+          '-=0.45',
+        )
+        .fromTo(
+          ctaRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6 },
+          '-=0.35',
+        );
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
-  return (
-    <section ref={heroRef} id="hero" className="min-h-screen flex items-center justify-center pt-20 px-6 bg-gray-900">
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Photo Section */}
-          <div className="flex justify-center lg:justify-end order-2 lg:order-1">
-            <div 
-              ref={photoRef}
-              className="relative group"
-            >
-              {/* Main Photo Container */}
-              <div className="relative z-10">
-                <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl group-hover:border-blue-400/50 transition-all duration-500">
-                  <Image
-                    src="/myfacelogo.png" // Update with your actual file name
-                    alt="Roshni Kumari - Full Stack Developer"
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    priority
-                  />
-                </div>
-                
-                {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-blue-500/30 animate-float">
-                  <span className="text-2xl">🚀</span>
-                </div>
-                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-purple-500/30 animate-float-delayed">
-                  <span className="text-xl">💻</span>
-                </div>
-                <div className="absolute top-1/2 -right-8 w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-green-500/30 animate-float-slow">
-                  <span className="text-lg">⭐</span>
-                </div>
-              </div>
+  const addLine = (el: HTMLSpanElement | null) => {
+    if (el && !lineRefs.current.includes(el)) lineRefs.current.push(el);
+  };
 
-              {/* Background Glow */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-1000 -z-10"></div>
+  return (
+    <section
+      ref={sectionRef}
+      id="hero"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-end overflow-hidden px-5 pb-12 pt-28 md:px-10 md:pb-16"
+    >
+      <div className="grid items-end gap-10 lg:grid-cols-12">
+        <div className="lg:col-span-8">
+          <p className="kicker mb-6">Portfolio / 2026</p>
+          <h1 className="mb-8">
+            <span className="block overflow-hidden">
+              <span
+                ref={addLine}
+                className="block font-heading text-[clamp(4.4rem,16vw,11.5rem)] font-semibold leading-[0.78] tracking-tight"
+              >
+                Roshni
+              </span>
+            </span>
+            <span className="block overflow-hidden">
+              <span
+                ref={addLine}
+                className="block font-display italic text-[clamp(4.4rem,16vw,11.5rem)] leading-[0.78] text-accent"
+              >
+                Kumari
+              </span>
+            </span>
+          </h1>
+
+          <div ref={metaRef} className="max-w-xl space-y-6">
+            <p className="text-lg md:text-xl text-paper/80 leading-relaxed">
+              Full Stack Developer · Competitive Programmer · Former Flipkart SDE Intern
+            </p>
+            <div className="flex flex-wrap gap-x-8 gap-y-3 kicker">
+              <span>CGPA 9.34/10.0</span>
+              <span>Top 20 Flipkart Runway</span>
+              <span>1200+ Problems Solved</span>
             </div>
           </div>
 
-          {/* Text Content */}
-          <div className="text-center lg:text-left order-1 lg:order-2">
-            <h1 ref={titleRef} className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 opacity-0">
-              Hi, I'm <span className="text-blue-400 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">Roshni Kumari</span>
-            </h1>
-            <p ref={subtitleRef} className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 opacity-0">
-              Full Stack Developer • Competitive Programmer •  Former Flipkart SDE Intern
-            </p>
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8 opacity-0" ref={buttonsRef}>
-              <div className="bg-blue-500/20 text-blue-300 px-4 py-2 rounded-full text-sm border border-blue-500/30">
-                CGPA: 9.60/10.0
-              </div>
-              <div className="bg-green-500/20 text-green-300 px-4 py-2 rounded-full text-sm border border-green-500/30">
-                Top 20 Flipkart Runway
-              </div>
-              <div className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full text-sm border border-purple-500/30">
-                1500+ Problems Solved
-              </div>
-            </div>
-            <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start opacity-0">
-              <a href="#projects" className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2">
-                <span>View My Projects</span>
-                <span>→</span>
+          <div ref={ctaRef} className="mt-10 flex flex-col sm:flex-row gap-4">
+            <Magnetic>
+              <a
+                href="#projects"
+                className="inline-flex items-center justify-center border border-paper bg-paper px-7 py-3 font-heading text-sm tracking-[0.14em] uppercase text-ink transition-colors hover:bg-transparent hover:text-paper"
+              >
+                View My Projects
               </a>
-              <a href="#contact" className="border border-white/20 hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg transition-all transform hover:scale-105 backdrop-blur-sm flex items-center justify-center gap-2">
-                <span>Get In Touch</span>
-                <span>📧</span>
+            </Magnetic>
+            <Magnetic>
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center border border-line px-7 py-3 font-heading text-sm tracking-[0.14em] uppercase text-paper transition-colors hover:border-paper"
+              >
+                Get In Touch
               </a>
+            </Magnetic>
+          </div>
+        </div>
+
+        <div className="relative lg:col-span-4">
+          <div className="relative mx-auto max-w-sm lg:ml-auto">
+            <div ref={photoRef} className="overflow-hidden">
+              <Image
+                src="/myfacelogo.png"
+                alt="Roshni Kumari - Full Stack Developer"
+                width={480}
+                height={480}
+                className="h-auto w-full object-contain"
+                priority
+              />
             </div>
+            <WireSculpture className="pointer-events-auto absolute -bottom-8 -left-10 h-40 w-40 opacity-80 md:h-52 md:w-52" />
           </div>
         </div>
       </div>

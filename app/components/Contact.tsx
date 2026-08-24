@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 import {
   FaInstagram,
   FaLinkedin,
@@ -11,10 +10,11 @@ import {
   FaPhone,
   FaGithub,
   FaTwitter,
-  FaFacebook
-} from "react-icons/fa6";
-
-import { MdEmail } from "react-icons/md";
+  FaFacebook,
+} from 'react-icons/fa6';
+import { MdEmail } from 'react-icons/md';
+import Magnetic from './Magnetic';
+import { prefersReducedMotion, registerMotion } from '../lib/motion';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -22,311 +22,268 @@ if (typeof window !== 'undefined') {
 
 const contactMethods = [
   {
-    icon: <MdEmail className="text-white text-2xl" />,
-    title: "Email",
-    value: "roshnikumari212004@gmail.com",
-    link: "mailto:roshnikumari212004@gmail.com",
-    color: "from-red-400 to-red-600"
+    icon: <MdEmail aria-hidden="true" />,
+    title: 'Email',
+    value: 'roshnikumari212004@gmail.com',
+    link: 'mailto:roshnikumari212004@gmail.com',
   },
   {
-    icon: <FaPhone className="text-white text-2xl" />,
-    title: "Phone",
-    value: "+91 8709758581",
-    link: "tel:+918709758581",
-    color: "from-green-400 to-green-600"
+    icon: <FaPhone aria-hidden="true" />,
+    title: 'Phone',
+    value: '+91 8709758581',
+    link: 'tel:+918709758581',
   },
   {
-    icon: <FaLocationDot className="text-white text-2xl" />,
-    title: "Location",
-    value: "Jamshedpur, Jharkhand, India",
-    link: "#",
-    color: "from-blue-400 to-blue-600"
+    icon: <FaLocationDot aria-hidden="true" />,
+    title: 'Location',
+    value: 'Jamshedpur, Jharkhand, India',
+    link: '#',
   },
   {
-    icon: <FaLinkedin className="text-white text-2xl" />,
-    title: "LinkedIn",
-    value: "linkedin.com/in/roshni-kumari-2aa61928a/",
-    link: "https://www.linkedin.com/in/roshni-kumari-2aa61928a/",
-    color: "from-blue-500 to-blue-700"
-  }
+    icon: <FaLinkedin aria-hidden="true" />,
+    title: 'LinkedIn',
+    value: 'linkedin.com/in/roshni-kumari-2aa61928a/',
+    link: 'https://www.linkedin.com/in/roshni-kumari-2aa61928a/',
+  },
+];
+
+const socials = [
+  { href: 'https://github.com/roshnikumari-21', icon: <FaGithub />, label: 'GitHub' },
+  { href: 'https://x.com/Roshnisingh_21', icon: <FaTwitter />, label: 'Twitter' },
+  { href: 'https://www.linkedin.com/in/roshni-kumari-2aa61928a/', icon: <FaLinkedin />, label: 'LinkedIn' },
+  { href: 'https://www.instagram.com/roshnisingh_21/', icon: <FaInstagram />, label: 'Instagram' },
+  { href: 'https://www.facebook.com/profile.php?id=61581885718089', icon: <FaFacebook />, label: 'Facebook' },
 ];
 
 export default function Contact() {
-  const sectionRef = useRef(null);
-  const formRef = useRef(null);
-  const contactCardRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   useEffect(() => {
+    registerMotion();
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) return;
 
-      gsap.fromTo('.contact-title',
-        { y: 50, opacity: 0 },
+      gsap.fromTo(
+        titleRef.current,
+        { y: 60, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 1,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%'
-          }
-        }
+          duration: 1.1,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
+        },
       );
 
-      gsap.fromTo(contactCardRefs.current,
-        { y: 60, opacity: 0, scale: 0.9 },
+      gsap.fromTo(
+        formRef.current,
+        { y: 40, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
-        }
+          duration: 0.9,
+          delay: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: formRef.current, start: 'top 85%' },
+        },
       );
-
-      gsap.fromTo(formRef.current,
-        { x: 50, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          delay: 0.5,
-          scrollTrigger: { trigger: formRef.current, start: 'top 80%' }
-        }
-      );
-
-      contactCardRefs.current.forEach((card) => {
-        if (card) {
-          gsap.to(card, {
-            y: -10,
-            duration: 2,
-            repeat: -1,
-            yoyo: true,
-            ease: "power1.inOut"
-          });
-        }
-      });
-
-    });
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  const addToContactCardRefs = (el: HTMLAnchorElement | null) => {
-    if (el && !contactCardRefs.current.includes(el)) {
-      contactCardRefs.current.push(el);
-    }
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setStatus('sending');
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        alert('Thank you for your message! I\'ll get back to you soon.');
+        setStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        alert('Something went wrong. Please try again later.');
+        setStatus('error');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred. Please try again.');
+      setStatus('error');
     }
   };
 
+  const fieldClass =
+    'w-full bg-transparent border-b border-line px-0 py-3 text-paper placeholder:text-muted/70 focus:border-accent focus:outline-none transition-colors';
+
   return (
-    <section ref={sectionRef} id="contact" className="py-20 bg-gray-900">
-      <div className="container mx-auto px-6">
-        <h2 className="contact-title text-3xl md:text-4xl font-bold text-center mb-4 text-white">
-          Get In Touch
+    <section ref={sectionRef} id="contact" className="section-pad relative z-10 pb-10">
+      <div className="mx-auto max-w-[1400px]">
+        <p className="kicker mb-6">07 / Contact</p>
+        <h2
+          ref={titleRef}
+          className="font-heading text-[clamp(3.2rem,10vw,8rem)] leading-[0.86] tracking-tight mb-16"
+        >
+          Get In
+          <span className="block font-display italic text-accent">Touch</span>
         </h2>
 
-        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
-          Ready to bring your ideas to life? Let's start a conversation!
-        </p>
-
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-
-          {/* LEFT: CONTACT INFO */}
-          <div>
-            <h3 className="text-2xl font-bold mb-8 text-white">Let's Connect</h3>
-            <p className="text-gray-300 mb-8 leading-relaxed">
-              I'm always interested in hearing about new opportunities and projects.
+        <div className="grid gap-16 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <h3 className="font-heading text-2xl mb-4">Let&apos;s Connect</h3>
+            <p className="text-paper/75 leading-relaxed mb-10">
+              I&apos;m always interested in hearing about new opportunities and projects.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div className="divide-y divide-line border-y border-line">
               {contactMethods.map((method) => (
                 <a
                   key={method.title}
-                  ref={addToContactCardRefs}
                   href={method.link}
                   target={method.link.startsWith('http') ? '_blank' : '_self'}
                   rel="noopener noreferrer"
-                  className="bg-gray-800/50 rounded-xl p-4 border border-white/10 hover:border-blue-500/30 transition-all duration-500 transform hover:scale-105 group"
+                  className="flex items-start gap-4 py-5 group"
                 >
-                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${method.color} flex items-center justify-center text-xl mb-3`}>
-                    {method.icon}
-                  </div>
-                  <h4 className="font-semibold text-white mb-1">{method.title}</h4>
-                  <p className="text-gray-400 text-sm">{method.value}</p>
+                  <span className="mt-1 text-accent">{method.icon}</span>
+                  <span>
+                    <span className="kicker block mb-1">{method.title}</span>
+                    <span className="text-paper group-hover:text-accent transition-colors break-all">
+                      {method.value}
+                    </span>
+                  </span>
                 </a>
               ))}
             </div>
 
-            {/* SOCIAL ICONS */}
-            <div className="bg-gray-800/30 rounded-xl p-6 border border-white/10">
-              <h4 className="font-semibold text-white mb-4">Follow Me</h4>
-
-              <div className="flex space-x-4">
-                <a
-                  href="https://github.com/roshnikumari-21"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaGithub />
-                </a>
-
-                <a
-                  href="https://x.com/Roshnisingh_21"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaTwitter />
-                </a>
-
-                <a
-                  href="https://www.linkedin.com/in/roshni-kumari-2aa61928a/"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaLinkedin />
-                </a>
-
-                <a
-                  href="https://www.instagram.com/roshnisingh_21/"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaInstagram />
-                </a>
-
-                <a
-                  href="https://www.facebook.com/profile.php?id=61581885718089"
-                  target="_blank"
-                  className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-2xl hover:bg-blue-500 transition-all"
-                >
-                  <FaFacebook />
-                </a>
+            <div className="mt-10">
+              <p className="kicker mb-4">Follow Me</p>
+              <div className="flex flex-wrap gap-3">
+                {socials.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="flex h-11 w-11 items-center justify-center border border-line text-lg text-paper transition-colors hover:border-accent hover:text-accent"
+                  >
+                    {social.icon}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* RIGHT: CONTACT FORM */}
-          {/* Contact Form */}
-          <div ref={formRef}>
-            <form onSubmit={handleSubmit} className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                    Your Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
-                    placeholder="Roshni Kumari"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
-                    placeholder="roshni@example.com"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
-                  Subject *
-                </label>
+          <form ref={formRef} onSubmit={handleSubmit} className="lg:col-span-7 space-y-8">
+            <div className="grid gap-8 sm:grid-cols-2">
+              <label className="block">
+                <span className="kicker">Your Name *</span>
                 <input
                   type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
-                  placeholder="Project Collaboration"
+                  className={fieldClass}
+                  placeholder="Roshni Kumari"
                 />
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Your Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
+              </label>
+              <label className="block">
+                <span className="kicker">Email Address *</span>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleInputChange}
                   required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-white placeholder-gray-400 resize-none"
-                  placeholder="Tell me about your project..."
+                  className={fieldClass}
+                  placeholder="roshni@example.com"
                 />
-              </div>
+              </label>
+            </div>
 
+            <label className="block">
+              <span className="kicker">Subject *</span>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleInputChange}
+                required
+                className={fieldClass}
+                placeholder="Project Collaboration"
+              />
+            </label>
+
+            <label className="block">
+              <span className="kicker">Your Message *</span>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+                rows={5}
+                className={`${fieldClass} resize-none`}
+                placeholder="Tell me about your project..."
+              />
+            </label>
+
+            <Magnetic>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25"
+                disabled={status === 'sending'}
+                className="inline-flex items-center justify-center border border-paper bg-paper px-8 py-3 font-heading text-sm tracking-[0.14em] uppercase text-ink transition-colors hover:bg-transparent hover:text-paper disabled:opacity-60"
               >
-                Send Message
-                <span className="ml-2">🚀</span>
+                {status === 'sending' ? 'Sending' : 'Send Message'}
               </button>
+            </Magnetic>
 
-              <p className="text-gray-400 text-sm text-center mt-4">
-                I typically respond within 24 hours
-              </p>
-            </form>
-          </div>
-
+            {status === 'success' && (
+              <p className="text-sm text-accent">Thank you for your message! I&apos;ll get back to you soon.</p>
+            )}
+            {status === 'error' && (
+              <p className="text-sm text-accent">Something went wrong. Please try again later.</p>
+            )}
+            {status === 'idle' && (
+              <p className="text-sm text-muted">I typically respond within 24 hours</p>
+            )}
+          </form>
         </div>
+
+        <footer className="mt-24 border-t border-line pt-10">
+          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <p className="font-heading text-[clamp(2.5rem,8vw,6rem)] leading-[0.85] tracking-tight">
+              Roshni
+              <span className="font-display italic text-accent"> Kumari</span>
+            </p>
+            <div className="flex flex-col items-start gap-3 md:items-end">
+              <a href="#hero" className="kicker hover:text-paper transition-colors">
+                Back to top
+              </a>
+              <p className="kicker">© 2026</p>
+            </div>
+          </div>
+        </footer>
       </div>
     </section>
   );
