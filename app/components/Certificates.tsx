@@ -10,73 +10,73 @@ type Cert = {
 const certificates: Cert[] = [
     {
         id: 1,
-        title: 'Example Certificate 1',
-        issuer: 'Issuer Name',
+        title: 'Tricolour Code Fest',
+        issuer: 'Coding Ninjas',
         date: '2025',
         url: '/certs/cert1.jpg',
         image: '/certs/cert1.jpg'
     },
     {
         id: 2,
-        title: 'Example Certificate 2',
-        issuer: 'Another Issuer',
+        title: 'Competitive Programming Summer Camp 2024',
+        issuer: 'IICPC (Inter IIT Competitive Programming Conclave)',
         date: '2024',
         url: '/certs/cert2.jpg',
         image: '/certs/cert2.jpg'
     },
     {
         id: 3,
-        title: 'Example Certificate 2',
-        issuer: 'Another Issuer',
+        title: 'GSSoC Extended — Contributor',
+        issuer: 'GirlScript Summer of Code',
         date: '2024',
         url: '/certs/cert3.jpg',
         image: '/certs/cert3.jpg'
     },
     {
         id: 4,
-        title: 'Example Certificate 2',
-        issuer: 'Another Issuer',
-        date: '2024',
+        title: 'Flipkart GRiD 7.0 — National Semi-Finalist',
+        issuer: 'Flipkart Early Careers',
+        date: '2025',
         url: '/certs/cert4.png',
         image: '/certs/cert4.png'
     },
     {
         id: 5,
-        title: 'Example Certificate 2',
-        issuer: 'Another Issuer',
-        date: '2024',
+        title: '50 Days Badge 2025',
+        issuer: 'LeetCode',
+        date: '2025',
         url: '/certs/cert5.png',
         image: '/certs/cert5.png'
     },
     {
         id: 6,
-        title: 'Example Certificate 2',
-        issuer: 'Another Issuer',
-        date: '2024',
+        title: '100 Days Badge 2025',
+        issuer: 'LeetCode',
+        date: '2025',
         url: '/certs/cert6.png',
         image: '/certs/cert6.png'
     },
     {
         id: 7,
-        title: 'Example Certificate 2',
-        issuer: 'Another Issuer',
-        date: '2024',
+        title: 'WWT All India Women Only Hackathon',
+        issuer: 'World Wide Technology & Shooting Stars Foundation',
+        date: '2025',
         url: '/certs/cert7.png',
         image: '/certs/cert7.png'
     },
     {
         id: 8,
-        title: 'Example Certificate 2',
-        issuer: 'Another Issuer',
-        date: '2024',
+        title: 'Open Source Connect Global — Contributor',
+        issuer: 'NexFellow',
+        date: '2026',
         url: '/certs/cert8.png',
         image: '/certs/cert8.png'
     },
     {
         id: 9,
-        title: 'Example Certificate 9',
-        issuer: 'Another Issuer',
-        date: '2024',
+        title: 'Queens of Codes — Rank 1',
+        issuer: 'Codess Cafe',
+        date: '2026',
         url: '/certs/cert9.jpeg',
         image: '/certs/cert9.jpeg'
     }
