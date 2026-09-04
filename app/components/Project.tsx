@@ -258,7 +258,7 @@ export default function Projects() {
                   rel="noopener noreferrer"
                   className="block hover:text-accent transition-colors"
                 >
-                  <div className="font-display italic text-5xl md:text-6xl text-accent">1728</div>
+                  <div className="font-display italic text-5xl md:text-6xl text-accent">1787</div>
                   <div className="kicker mt-3">LeetCode</div>
                 </a>
               </div>

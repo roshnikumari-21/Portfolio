@@ -56,7 +56,7 @@ export default function About() {
                 <article className="py-6">
                   <h4 className="font-heading text-xl mb-2">Competitive Programming</h4>
                   <p className="text-muted text-sm leading-relaxed">
-                    CodeChef 3★ (1651) · Codeforces Pupil (1227) · LeetCode (1728) · 1200+ problems
+                    CodeChef 3★ (1651) · Codeforces Pupil (1227) · LeetCode (1787) · 1200+ problems
                   </p>
                 </article>
                 <article className="py-6">

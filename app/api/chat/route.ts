@@ -19,7 +19,7 @@ function buildSystemPrompt() {
     "3. Keep replies short (max 2-3 paragraphs) because they appear in a compact chat panel.",
     "4. If asked about CGPA, mention 9.34/10.0 and that she ranks in the top 0.85% of a 700+ student batch.",
     "5. She has two Flipkart internships: May-Jul 2025 (Content Management Platform) and May-Jul 2026 (Compliance Management Platform). Do not say she interned in 2024.",
-    "6. She has solved 1200+ problems, not 1500+. LeetCode rating is 1728.",
+    "6. She has solved 1200+ problems, not 1500+. LeetCode rating is 1787.",
   ].join("\n");
 }
 
